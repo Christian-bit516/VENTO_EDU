@@ -100,11 +100,106 @@ const MOTIVATIONS = [
   { text: '¡Cada ejercicio te hace más fuerte!', icon: '💎' },
 ];
 
+/* ── Settings Modal ───────────────────────────────────────────────────────── */
+const SettingsModal = ({ user, onClose }) => {
+  const [soundOn,  setSoundOn]  = useState(() => localStorage.getItem('vento_sound')  !== 'false');
+  const [voiceOn,  setVoiceOn]  = useState(() => localStorage.getItem('vento_voice')  !== 'false');
+  const [notifOn,  setNotifOn]  = useState(() => localStorage.getItem('vento_notif')  !== 'false');
+  const [theme,    setTheme]    = useState(() => localStorage.getItem('vento_theme')  || 'system');
+
+  const toggle = (key, val, setter) => {
+    setter(val);
+    localStorage.setItem(key, String(val));
+  };
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-box" onClick={e => e.stopPropagation()}>
+        <div className="modal-header">
+          <span className="modal-icon">⚙️</span>
+          <h2>Configuración</h2>
+          <button className="modal-close" onClick={onClose}>✕</button>
+        </div>
+        <div className="modal-body">
+
+          <div className="settings-section">
+            <span className="settings-section-title">🔊 Audio</span>
+            <div className="settings-row">
+              <div className="settings-row-info">
+                <span className="settings-row-label">Efectos de sonido</span>
+                <span className="settings-row-desc">Sonidos al interactuar con la app</span>
+              </div>
+              <button className={`toggle-btn ${soundOn ? 'on' : ''}`}
+                onClick={() => toggle('vento_sound', !soundOn, setSoundOn)}>
+                <span className="toggle-knob" />
+              </button>
+            </div>
+            <div className="settings-row">
+              <div className="settings-row-info">
+                <span className="settings-row-label">Voz del asistente</span>
+                <span className="settings-row-desc">Saludo de voz al iniciar sesión</span>
+              </div>
+              <button className={`toggle-btn ${voiceOn ? 'on' : ''}`}
+                onClick={() => toggle('vento_voice', !voiceOn, setVoiceOn)}>
+                <span className="toggle-knob" />
+              </button>
+            </div>
+          </div>
+
+          <div className="settings-section">
+            <span className="settings-section-title">🔔 Notificaciones</span>
+            <div className="settings-row">
+              <div className="settings-row-info">
+                <span className="settings-row-label">Recordatorios de estudio</span>
+                <span className="settings-row-desc">Avisos para mantener tu racha</span>
+              </div>
+              <button className={`toggle-btn ${notifOn ? 'on' : ''}`}
+                onClick={() => toggle('vento_notif', !notifOn, setNotifOn)}>
+                <span className="toggle-knob" />
+              </button>
+            </div>
+          </div>
+
+          <div className="settings-section">
+            <span className="settings-section-title">🎨 Apariencia</span>
+            <div className="settings-row">
+              <div className="settings-row-info">
+                <span className="settings-row-label">Tema</span>
+                <span className="settings-row-desc">Preferencia de color de la interfaz</span>
+              </div>
+              <select className="settings-select" value={theme}
+                onChange={e => { setTheme(e.target.value); localStorage.setItem('vento_theme', e.target.value); }}>
+                <option value="system">Sistema</option>
+                <option value="light">Claro</option>
+                <option value="dark">Oscuro</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="settings-section">
+            <span className="settings-section-title">👤 Cuenta</span>
+            <div className="settings-account-info">
+              <span>{user?.email || 'Sin correo'}</span>
+              <span className="settings-method">
+                {user?.method === 'face' ? '🔐 Face ID' : user?.method === 'google' ? '🌐 Google' : '✉️ Correo'}
+              </span>
+            </div>
+          </div>
+
+          <div className="settings-save-note">Los cambios se guardan automáticamente ✅</div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 /* ═══ DASHBOARD COMPONENT ═══════════════════════════════════════════════════ */
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
-  const [showMenu, setShowMenu] = useState(false);
+  const { user, logout, updateProgress } = useAuth();
+  const [showMenu,     setShowMenu]     = useState(false);
+  const [showProfile,  setShowProfile]  = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [motivation] = useState(() => MOTIVATIONS[Math.floor(Math.random() * MOTIVATIONS.length)]);
   const [mounted, setMounted] = useState(false);
 
@@ -170,10 +265,10 @@ const Dashboard = () => {
             </button>
             {showMenu && (
               <div className="dash-dropdown-menu">
-                <button className="dash-dropdown-item" onClick={() => sounds.click()}>
+                <button className="dash-dropdown-item" onClick={() => { sounds.click(); setShowMenu(false); setShowProfile(true); }}>
                   <span>👤</span> Mi perfil
                 </button>
-                <button className="dash-dropdown-item" onClick={() => sounds.click()}>
+                <button className="dash-dropdown-item" onClick={() => { sounds.click(); setShowMenu(false); setShowSettings(true); }}>
                   <span>⚙️</span> Configuración
                 </button>
                 <div className="dropdown-divider" />
@@ -320,6 +415,54 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* ══════ MODAL: MI PERFIL ══════ */}
+      {showProfile && (
+        <div className="modal-overlay" onClick={() => setShowProfile(false)}>
+          <div className="modal-box" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <span className="modal-icon">👤</span>
+              <h2>Mi Perfil</h2>
+              <button className="modal-close" onClick={() => setShowProfile(false)}>✕</button>
+            </div>
+            <div className="modal-body">
+              <div className="profile-avatar-big">{user?.name?.charAt(0)?.toUpperCase() || '?'}</div>
+              <div className="profile-info-grid">
+                <div className="profile-info-item">
+                  <span className="profile-info-label">Nombre</span>
+                  <span className="profile-info-value">{user?.name || '—'}</span>
+                </div>
+                <div className="profile-info-item">
+                  <span className="profile-info-label">Correo</span>
+                  <span className="profile-info-value">{user?.email || '—'}</span>
+                </div>
+                <div className="profile-info-item">
+                  <span className="profile-info-label">Método de acceso</span>
+                  <span className="profile-info-value profile-method">
+                    {user?.method === 'face' ? '🔐 Face ID' : user?.method === 'google' ? '🌐 Google' : '✉️ Correo'}
+                  </span>
+                </div>
+                <div className="profile-info-item">
+                  <span className="profile-info-label">Rol</span>
+                  <span className="profile-info-value">{user?.role === 'admin' ? '🛡️ Admin' : '🎓 Estudiante'}</span>
+                </div>
+              </div>
+              <div className="profile-stats-row">
+                <div className="profile-stat"><span className="ps-num">{progress.xp || 0}</span><span className="ps-lbl">XP Total</span></div>
+                <div className="profile-stat"><span className="ps-num">{progress.streak || 0}</span><span className="ps-lbl">Racha</span></div>
+                <div className="profile-stat"><span className="ps-num">{completedCount}</span><span className="ps-lbl">Lecciones</span></div>
+                <div className="profile-stat"><span className="ps-num">{level}</span><span className="ps-lbl">Nivel</span></div>
+              </div>
+              <div className="profile-joined">
+                Miembro desde: {user?.loginTime ? new Date(user.loginTime).toLocaleDateString('es-MX', { year:'numeric', month:'long', day:'numeric' }) : 'Hoy'}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ══════ MODAL: CONFIGURACIÓN ══════ */}
+      {showSettings && <SettingsModal user={user} onClose={() => setShowSettings(false)} />}
     </div>
   );
 };

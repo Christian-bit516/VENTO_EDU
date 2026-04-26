@@ -210,32 +210,105 @@ app.post('/api/face-profile', async (req, res) => {
         return res.status(400).json({ error: 'Datos incompletos' });
 
     try {
-        // Verificar si ya tiene perfil facial registrado
+        const emailLow = email.toLowerCase().trim();
+
+        // ── 1) Asegurar que el usuario existe en la colección 'users' ──
+        let userId = null;
+        let existingUser = await findUserByEmail(emailLow);
+        if (!existingUser) {
+            // Primera vez que registra face ID → crear registro de usuario
+            const ref = await db.collection('users').add({
+                name:      name.trim(),
+                email:     emailLow,
+                password:  null,
+                google_id: null,
+                method:    'face',
+                role:      'student',
+                progress:  {},
+                createdAt: admin.firestore.FieldValue.serverTimestamp(),
+            });
+            userId = ref.id;
+        } else {
+            userId = existingUser.id;
+        }
+
+        // ── 2) Guardar/actualizar perfil facial ──
         const existing = await db.collection('face_profiles')
-            .where('email', '==', email.toLowerCase()).get();
+            .where('email', '==', emailLow).get();
 
         if (!existing.empty) {
-            // Actualizar el perfil existente en lugar de crear uno duplicado
             const docId = existing.docs[0].id;
             await db.collection('face_profiles').doc(docId).update({
                 name, descriptor,
                 updatedAt: admin.firestore.FieldValue.serverTimestamp(),
             });
-            return res.json({ message: 'Perfil facial actualizado', id: docId });
+            return res.json({ message: 'Perfil facial actualizado', id: docId, userId });
         }
 
-        // Guardar nuevo perfil facial en Firestore a través de Node.js
         const ref = await db.collection('face_profiles').add({
             name:      name.trim(),
-            email:     email.toLowerCase().trim(),
+            email:     emailLow,
             descriptor,
+            userId,
             createdAt: admin.firestore.FieldValue.serverTimestamp(),
         });
 
-        res.status(201).json({ message: 'Perfil facial guardado', id: ref.id });
+        res.status(201).json({ message: 'Perfil facial guardado', id: ref.id, userId });
     } catch (err) {
         console.error('Face profile error:', err);
         res.status(500).json({ error: 'Error al guardar perfil facial' });
+    }
+});
+
+
+
+/* ══════════════════════════════════════════════════
+   4b) BUSCAR USUARIO POR EMAIL
+   GET /api/user-by-email?email=...&autoCreateName=...
+   Usado por Face ID login para obtener id + progress
+══════════════════════════════════════════════════ */
+app.get('/api/user-by-email', async (req, res) => {
+    const { email, autoCreateName } = req.query;
+    if (!email) return res.status(400).json({ error: 'email requerido' });
+    try {
+        const emailLow = email.toLowerCase().trim();
+        let user = await findUserByEmail(emailLow);
+        
+        // Si no existe pero viene de un login de Face ID antiguo, lo creamos
+        if (!user && autoCreateName) {
+            const ref = await db.collection('users').add({
+                name:      autoCreateName.trim(),
+                email:     emailLow,
+                password:  null,
+                google_id: null,
+                method:    'face',
+                role:      'student',
+                progress:  {},
+                createdAt: admin.firestore.FieldValue.serverTimestamp(),
+            });
+            user = {
+                id: ref.id,
+                name: autoCreateName.trim(),
+                email: emailLow,
+                role: 'student',
+                progress: {},
+                method: 'face'
+            };
+        } else if (!user) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        res.json({
+            id:       user.id,
+            name:     user.name,
+            email:    user.email,
+            role:     user.role     || 'student',
+            progress: user.progress || {},
+            method:   user.method   || (user.google_id ? 'google' : user.password ? 'email' : 'face'),
+        });
+    } catch (err) {
+        console.error('Get user error:', err);
+        res.status(500).json({ error: 'Error al buscar usuario' });
     }
 });
 

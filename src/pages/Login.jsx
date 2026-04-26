@@ -235,10 +235,9 @@ const Login = () => {
         return;
       }
 
-      /* Comparar localmente con face-api (matemáticas en el navegador) */
+      /* Comparar localmente con face-api */
       let bestMatch = null;
       let bestDist  = Infinity;
-
       for (const profile of data.profiles) {
         const saved = new Float32Array(profile.descriptor);
         const dist  = faceapi.euclideanDistance(descriptor, saved);
@@ -246,15 +245,19 @@ const Login = () => {
       }
 
       if (bestDist < FACE_MATCH_THRESHOLD && bestMatch) {
-        /* Node.js ya verificó la identidad (devolvió los perfiles).
-           Guardamos la sesión con saveSession para consistencia. */
-        const user = { name: bestMatch.name, email: bestMatch.email, method: 'face-id' };
-        saveSession('face-id-session', user); // token marcado como face-id
+        /* ── Obtener datos completos del usuario (con id y progress) ── */
+        let fullUser = { name: bestMatch.name, email: bestMatch.email, method: 'face', role: 'student', progress: {} };
+        try {
+          const uRes  = await apiFetch(`/api/user-by-email?email=${encodeURIComponent(bestMatch.email)}&autoCreateName=${encodeURIComponent(bestMatch.name)}`);
+          const uData = await uRes.json();
+          if (uRes.ok) fullUser = { ...fullUser, ...uData, method: 'face' };
+        } catch { /* si falla, usar datos básicos */ }
 
+        saveSession('face-id-session', fullUser);
         speak(`Identidad confirmada. Bienvenido, ${bestMatch.name}.`);
         setMessage({ text: `¡Hola ${bestMatch.name}! Redirigiendo…`, type: 'success' });
         setMode('login');
-        setTimeout(() => redirectToApp(user), 1500);
+        setTimeout(() => redirectToApp(fullUser), 1500);
       } else {
         speak('Rostro no reconocido. Regístrate primero.');
         setMessage({ text: 'Rostro no reconocido. ¿Ya registraste tu cara?', type: 'error' });
