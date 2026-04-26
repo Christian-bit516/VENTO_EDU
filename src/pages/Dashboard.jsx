@@ -13,12 +13,45 @@ const Dashboard = () => {
     const { speak } = useVentoVoice();
 
     useEffect(() => {
+        const token = localStorage.getItem('vento_token');
         const savedUser = localStorage.getItem('vento_user');
-        if (savedUser) {
+
+        // Sin datos de sesión → redirigir al login
+        if (!savedUser) {
+            window.location.href = '/';
+            return;
+        }
+
+        // Si es sesión de Face ID (no tiene JWT real), solo verificar localStorage
+        if (token === 'face-id-session') {
             setUser(JSON.parse(savedUser));
             loadModels();
+            return;
+        }
+
+        // Verificar JWT con Node.js — si no responde o el token expiró, al login
+        if (token) {
+            fetch('http://localhost:5000/api/verify', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.valid) {
+                    setUser(JSON.parse(savedUser));
+                    loadModels();
+                } else {
+                    localStorage.removeItem('vento_token');
+                    localStorage.removeItem('vento_user');
+                    window.location.href = '/';
+                }
+            })
+            .catch(() => {
+                // Node.js no está corriendo → no dejar entrar
+                alert('⚠️ El servidor Node.js no está activo. Inicia el backend primero.');
+                window.location.href = '/';
+            });
         } else {
-            window.location.href = "/";
+            window.location.href = '/';
         }
     }, []);
 
