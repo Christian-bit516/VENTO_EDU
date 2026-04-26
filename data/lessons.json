@@ -1,0 +1,312 @@
+{
+  "units": [
+    {
+      "id": "unit_1",
+      "title": "Greetings & Basics",
+      "titleEs": "Saludos y Básicos",
+      "description": "Aprende saludos esenciales e introducciones",
+      "icon": "👋",
+      "color": "#58cc02",
+      "lessons": [
+        {
+          "id": "lesson_1_1",
+          "title": "Hello & Goodbye",
+          "titleEs": "Hola y Adiós",
+          "xpReward": 20,
+          "theory": {
+            "title": "Saludos en Inglés",
+            "explanation": "En inglés usamos distintos saludos según la hora del día y el nivel de formalidad.",
+            "grammar": "Hello / Hi → informal\nGood morning → mañana\nGood afternoon → tarde\nGood evening → noche\nGoodbye / Bye → adiós",
+            "vocabulary": [
+              { "word": "Hello", "translation": "Hola", "emoji": "👋", "example": "Hello! How are you?" },
+              { "word": "Goodbye", "translation": "Adiós", "emoji": "🚪", "example": "Goodbye! See you tomorrow!" },
+              { "word": "Good morning", "translation": "Buenos días", "emoji": "🌅", "example": "Good morning, everyone!" },
+              { "word": "Good night", "translation": "Buenas noches", "emoji": "🌙", "example": "Good night! Sleep well." },
+              { "word": "Please", "translation": "Por favor", "emoji": "🙏", "example": "Water, please." },
+              { "word": "Thank you", "translation": "Gracias", "emoji": "💚", "example": "Thank you very much!" }
+            ],
+            "tip": "💡 'Hi' es más informal que 'Hello'. Úsalo con amigos."
+          },
+          "exercises": [
+            { "type": "translate", "question": "¿Cómo se dice 'Hola' en inglés?", "answer": "hello", "options": ["hello","goodbye","please","thanks"], "xp": 3 },
+            { "type": "translate", "question": "¿Cómo se dice 'Adiós' en inglés?", "answer": "goodbye", "options": ["hello","goodbye","morning","night"], "xp": 3 },
+            { "type": "matching", "instruction": "Une cada palabra con su traducción", "pairs": [["Hello","Hola"],["Goodbye","Adiós"],["Please","Por favor"],["Thanks","Gracias"]], "xp": 5 },
+            { "type": "memory", "instruction": "Encuentra los pares EN ↔ ES", "pairs": [["Hello","Hola"],["Good morning","Buenos días"],["Please","Por favor"],["Thank you","Gracias"]], "xp": 6 },
+            { "type": "scramble", "question": "Hola (informal)", "answer": "hello", "xp": 4 },
+            { "type": "speed", "question": "¿Cuál es la traducción de 'Buenas noches'?", "answer": "Good night", "options": ["Good night","Good morning","Goodbye","Hello"], "xp": 5 },
+            { "type": "listen", "instruction": "Escucha y escribe lo que oyes", "text": "Good morning", "answer": "Good morning", "xp": 3 },
+            { "type": "wordorder", "instruction": "Ordena las palabras para formar la frase", "words": ["Good","morning","everyone"], "answer": "Good morning everyone", "answerEs": "Buenos días a todos", "xp": 5 },
+            { "type": "speak", "instruction": "Repite la siguiente frase en voz alta", "text": "Hello, how are you?", "textEs": "Hola, ¿cómo estás?", "answer": "Hello how are you", "xp": 4 },
+            { "type": "fillblank", "sentence": "Good ___, nice to meet you!", "answer": "morning", "options": ["morning","night","food","water"], "xp": 3 }
+          ]
+        },
+        {
+          "id": "lesson_1_2",
+          "title": "How Are You?",
+          "titleEs": "¿Cómo Estás?",
+          "xpReward": 20,
+          "theory": {
+            "title": "Preguntar cómo está alguien",
+            "explanation": "En inglés hay varias formas de preguntar cómo está alguien y de responder.",
+            "grammar": "How are you? → ¿Cómo estás?\nI'm fine → Estoy bien\nI'm great → Estoy genial\nNot bad → No está mal\nNice to meet you → Mucho gusto",
+            "vocabulary": [
+              { "word": "Fine", "translation": "Bien", "emoji": "😊", "example": "I'm fine, thank you!" },
+              { "word": "Great", "translation": "Genial", "emoji": "🌟", "example": "I'm great today!" },
+              { "word": "Tired", "translation": "Cansado", "emoji": "😴", "example": "I'm very tired." },
+              { "word": "Happy", "translation": "Feliz", "emoji": "😄", "example": "I'm so happy!" },
+              { "word": "Hungry", "translation": "Con hambre", "emoji": "🍕", "example": "I'm very hungry!" },
+              { "word": "Thank you", "translation": "Gracias", "emoji": "🙏", "example": "Thank you so much!" }
+            ],
+            "tip": "💡 Cuando pregunten 'How are you?' siempre responde antes de preguntar de vuelta."
+          },
+          "exercises": [
+            { "type": "translate", "question": "¿Cómo se dice 'Estoy bien' en inglés?", "answer": "I'm fine", "options": ["I'm fine","I'm bad","I'm hungry","I'm tired"], "xp": 3 },
+            { "type": "matching", "instruction": "Une el estado de ánimo con su traducción", "pairs": [["Happy","Feliz"],["Tired","Cansado"],["Hungry","Con hambre"],["Fine","Bien"]], "xp": 5 },
+            { "type": "speak", "instruction": "Repite la siguiente frase", "text": "I'm fine, thank you", "textEs": "Estoy bien, gracias", "answer": "I'm fine thank you", "xp": 4 },
+            { "type": "wordorder", "instruction": "Ordena para preguntar cómo está alguien", "words": ["How","are","you","today"], "answer": "How are you today", "answerEs": "¿Cómo estás hoy?", "xp": 5 },
+            { "type": "fillblank", "sentence": "How ___ you today?", "answer": "are", "options": ["are","is","am","was"], "xp": 3 },
+            { "type": "listen", "instruction": "Escucha y escribe lo que oyes", "text": "Nice to meet you", "answer": "Nice to meet you", "xp": 3 }
+          ]
+        },
+        {
+          "id": "lesson_1_3",
+          "title": "My Name Is...",
+          "titleEs": "Mi Nombre Es...",
+          "xpReward": 25,
+          "theory": {
+            "title": "Presentarte en inglés",
+            "explanation": "Hay dos formas principales de decir tu nombre en inglés.",
+            "grammar": "My name is... → Mi nombre es...\nI am... / I'm... → Yo soy...\nWhat is your name? → ¿Cómo te llamas?\nWhere are you from? → ¿De dónde eres?\nI'm from... → Soy de...",
+            "vocabulary": [
+              { "word": "Name", "translation": "Nombre", "emoji": "📛", "example": "My name is Carlos." },
+              { "word": "From", "translation": "De (origen)", "emoji": "🌍", "example": "I'm from Mexico." },
+              { "word": "Years old", "translation": "Años de edad", "emoji": "🎂", "example": "I'm 15 years old." },
+              { "word": "Student", "translation": "Estudiante", "emoji": "📚", "example": "I'm a student." },
+              { "word": "Live", "translation": "Vivir", "emoji": "🏠", "example": "I live in Monterrey." },
+              { "word": "Speak", "translation": "Hablar", "emoji": "💬", "example": "I speak Spanish." }
+            ],
+            "tip": "💡 'My name is' es más formal. 'I'm' es más casual y común en conversación."
+          },
+          "exercises": [
+            { "type": "translate", "question": "¿Cómo se dice 'Mi nombre es Juan'?", "answer": "My name is Juan", "options": ["My name is Juan","I am Juan","Hello Juan","Juan is me"], "xp": 4 },
+            { "type": "wordorder", "instruction": "Ordena para presentarte", "words": ["My","name","is","Maria"], "answer": "My name is Maria", "answerEs": "Mi nombre es María", "xp": 5 },
+            { "type": "speak", "instruction": "Di esta frase en voz alta", "text": "My name is Maria", "textEs": "Mi nombre es María", "answer": "My name is Maria", "xp": 4 },
+            { "type": "matching", "instruction": "Une las frases con su significado", "pairs": [["My name is","Mi nombre es"],["I'm from","Soy de"],["I'm a student","Soy estudiante"],["I live in","Vivo en"]], "xp": 5 },
+            { "type": "fillblank", "sentence": "What is ___ name?", "answer": "your", "options": ["your","my","his","our"], "xp": 4 },
+            { "type": "listen", "instruction": "Escucha y escribe", "text": "I am from Mexico", "answer": "I am from Mexico", "xp": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit_2",
+      "title": "Numbers & Colors",
+      "titleEs": "Números y Colores",
+      "description": "Domina números del 1 al 20 y colores básicos",
+      "icon": "🎨",
+      "color": "#ce82ff",
+      "lessons": [
+        {
+          "id": "lesson_2_1",
+          "title": "Numbers 1-10",
+          "titleEs": "Números 1-10",
+          "xpReward": 20,
+          "theory": {
+            "title": "Los Números del 1 al 10",
+            "explanation": "Aprende a contar del 1 al 10 en inglés. ¡Son la base de todo!",
+            "grammar": "1-one  2-two  3-three  4-four  5-five\n6-six  7-seven  8-eight  9-nine  10-ten",
+            "vocabulary": [
+              { "word": "One", "translation": "Uno (1)", "emoji": "1️⃣", "example": "I have one dog." },
+              { "word": "Two", "translation": "Dos (2)", "emoji": "2️⃣", "example": "Two apples, please." },
+              { "word": "Five", "translation": "Cinco (5)", "emoji": "5️⃣", "example": "I'm five years old." },
+              { "word": "Seven", "translation": "Siete (7)", "emoji": "7️⃣", "example": "Seven days in a week." },
+              { "word": "Ten", "translation": "Diez (10)", "emoji": "🔟", "example": "I have ten fingers." },
+              { "word": "Three", "translation": "Tres (3)", "emoji": "3️⃣", "example": "Three cats on the roof." }
+            ],
+            "tip": "💡 'Eight' se pronuncia 'EIT', no 'EIGHT'. ¡El 'gh' es silencioso!"
+          },
+          "exercises": [
+            { "type": "matching", "instruction": "Une el número con su palabra en inglés", "pairs": [["1","One"],["5","Five"],["7","Seven"],["10","Ten"]], "xp": 5 },
+            { "type": "translate", "question": "¿Cómo se dice 'cinco' en inglés?", "answer": "five", "options": ["five","four","six","seven"], "xp": 3 },
+            { "type": "listen", "instruction": "Escucha el número y escríbelo", "text": "seven", "answer": "seven", "xp": 3 },
+            { "type": "wordorder", "instruction": "Forma la oración con números", "words": ["I","have","three","apples"], "answer": "I have three apples", "answerEs": "Tengo tres manzanas", "xp": 5 },
+            { "type": "speak", "instruction": "Di este número en inglés", "text": "eight", "textEs": "ocho", "answer": "eight", "xp": 3 },
+            { "type": "fillblank", "sentence": "I have ___ apples (3)", "answer": "three", "options": ["three","tree","free","there"], "xp": 3 },
+            { "type": "translate", "question": "¿Cuánto es 'ten' en español?", "answer": "diez", "options": ["diez","nueve","once","ocho"], "xp": 3 }
+          ]
+        },
+        {
+          "id": "lesson_2_2",
+          "title": "Basic Colors",
+          "titleEs": "Colores Básicos",
+          "xpReward": 20,
+          "theory": {
+            "title": "Los Colores en Inglés",
+            "explanation": "Los colores en inglés son fáciles. A diferencia del español, NO cambian según el género.",
+            "grammar": "Red = Rojo/Roja\nBlue = Azul\nGreen = Verde\nYellow = Amarillo/a\nBlack = Negro/a\nWhite = Blanco/a\nPurple = Morado/a",
+            "vocabulary": [
+              { "word": "Red", "translation": "Rojo", "emoji": "🔴", "example": "The apple is red." },
+              { "word": "Blue", "translation": "Azul", "emoji": "🔵", "example": "The sky is blue." },
+              { "word": "Green", "translation": "Verde", "emoji": "🟢", "example": "Grass is green." },
+              { "word": "Yellow", "translation": "Amarillo", "emoji": "🟡", "example": "The sun is yellow." },
+              { "word": "Black", "translation": "Negro", "emoji": "⚫", "example": "My cat is black." },
+              { "word": "White", "translation": "Blanco", "emoji": "⚪", "example": "Snow is white." }
+            ],
+            "tip": "💡 En inglés, el color va ANTES del sustantivo: 'a red car' (un carro rojo)"
+          },
+          "exercises": [
+            { "type": "matching", "instruction": "Une cada color con su traducción", "pairs": [["Red","Rojo"],["Blue","Azul"],["Green","Verde"],["Yellow","Amarillo"]], "xp": 5 },
+            { "type": "translate", "question": "¿Cómo se dice 'rojo' en inglés?", "answer": "red", "options": ["red","blue","green","yellow"], "xp": 3 },
+            { "type": "wordorder", "instruction": "Ordena la oración sobre colores", "words": ["The","sky","is","blue"], "answer": "The sky is blue", "answerEs": "El cielo es azul", "xp": 5 },
+            { "type": "speak", "instruction": "Di este color en inglés", "text": "green", "textEs": "verde", "answer": "green", "xp": 3 },
+            { "type": "fillblank", "sentence": "The sky is ___", "answer": "blue", "options": ["blue","red","green","yellow"], "xp": 3 },
+            { "type": "listen", "instruction": "Escucha y escribe el color", "text": "purple", "answer": "purple", "xp": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit_3",
+      "title": "Food & Drinks",
+      "titleEs": "Comida y Bebidas",
+      "description": "Vocabulario sobre alimentos y restaurantes",
+      "icon": "🍕",
+      "color": "#ff9600",
+      "lessons": [
+        {
+          "id": "lesson_3_1",
+          "title": "At the Restaurant",
+          "titleEs": "En el Restaurante",
+          "xpReward": 25,
+          "theory": {
+            "title": "En el Restaurante",
+            "explanation": "Aprende las frases esenciales para pedir comida y bebida en un restaurante.",
+            "grammar": "I would like... → Me gustaría...\nCan I have...? → ¿Puedo tener...?\nThe check, please → La cuenta, por favor\nHow much is it? → ¿Cuánto cuesta?",
+            "vocabulary": [
+              { "word": "Water", "translation": "Agua", "emoji": "💧", "example": "A glass of water, please." },
+              { "word": "Menu", "translation": "Menú/Carta", "emoji": "📋", "example": "Can I see the menu?" },
+              { "word": "Delicious", "translation": "Delicioso", "emoji": "😋", "example": "This is delicious!" },
+              { "word": "Hungry", "translation": "Con hambre", "emoji": "🍽️", "example": "I am very hungry." },
+              { "word": "Check", "translation": "Cuenta", "emoji": "🧾", "example": "The check, please!" },
+              { "word": "Order", "translation": "Ordenar/Pedir", "emoji": "✋", "example": "I'd like to order." }
+            ],
+            "tip": "💡 'I would like' es más educado que 'I want'. Úsalo siempre en restaurantes."
+          },
+          "exercises": [
+            { "type": "matching", "instruction": "Une la frase con su significado", "pairs": [["Water","Agua"],["Menu","Carta"],["Hungry","Con hambre"],["Delicious","Delicioso"]], "xp": 5 },
+            { "type": "translate", "question": "¿Cómo se dice 'agua' en inglés?", "answer": "water", "options": ["water","wine","juice","milk"], "xp": 4 },
+            { "type": "wordorder", "instruction": "Ordena para pedir agua", "words": ["I","would","like","a","glass","of","water"], "answer": "I would like a glass of water", "answerEs": "Me gustaría un vaso de agua", "xp": 6 },
+            { "type": "speak", "instruction": "Pide agua como en un restaurante", "text": "I would like a glass of water, please", "textEs": "Me gustaría un vaso de agua, por favor", "answer": "I would like a glass of water please", "xp": 5 },
+            { "type": "fillblank", "sentence": "Can I have the ___, please?", "answer": "menu", "options": ["menu","money","movie","music"], "xp": 4 },
+            { "type": "listen", "instruction": "Escucha y escribe", "text": "I am hungry", "answer": "I am hungry", "xp": 4 }
+          ]
+        },
+        {
+          "id": "lesson_3_2",
+          "title": "Fruits & Vegetables",
+          "titleEs": "Frutas y Verduras",
+          "xpReward": 20,
+          "theory": {
+            "title": "Frutas y Verduras",
+            "explanation": "El vocabulario de frutas y verduras es muy útil en el supermercado y restaurantes.",
+            "grammar": "Fruit (singular) = fruta\nFruits (plural) = frutas\nVegetable = vegetal/verdura\nI like / I don't like = Me gusta / No me gusta",
+            "vocabulary": [
+              { "word": "Apple", "translation": "Manzana", "emoji": "🍎", "example": "An apple a day!" },
+              { "word": "Banana", "translation": "Plátano", "emoji": "🍌", "example": "I love bananas." },
+              { "word": "Strawberry", "translation": "Fresa", "emoji": "🍓", "example": "Strawberries are red." },
+              { "word": "Orange", "translation": "Naranja", "emoji": "🍊", "example": "Orange juice, please." },
+              { "word": "Carrot", "translation": "Zanahoria", "emoji": "🥕", "example": "Carrots are orange." },
+              { "word": "Tomato", "translation": "Tomate", "emoji": "🍅", "example": "A tomato is red." }
+            ],
+            "tip": "💡 'Tomato' en inglés americano se pronuncia 'to-MAY-to', en inglés británico 'to-MAH-to'."
+          },
+          "exercises": [
+            { "type": "matching", "instruction": "Une la fruta/verdura con su traducción", "pairs": [["Apple","Manzana"],["Banana","Plátano"],["Carrot","Zanahoria"],["Tomato","Tomate"]], "xp": 5 },
+            { "type": "translate", "question": "¿Cómo se dice 'manzana' en inglés?", "answer": "apple", "options": ["apple","orange","banana","grape"], "xp": 3 },
+            { "type": "wordorder", "instruction": "Ordena la oración", "words": ["I","like","to","eat","fruit","for","breakfast"], "answer": "I like to eat fruit for breakfast", "answerEs": "Me gusta comer fruta en el desayuno", "xp": 6 },
+            { "type": "speak", "instruction": "Di el nombre de esta fruta", "text": "strawberry", "textEs": "fresa", "answer": "strawberry", "xp": 3 },
+            { "type": "listen", "instruction": "Escucha y escribe la fruta", "text": "banana", "answer": "banana", "xp": 3 },
+            { "type": "translate", "question": "¿Cómo se dice 'zanahoria' en inglés?", "answer": "carrot", "options": ["carrot","carret","caret","carot"], "xp": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit_4",
+      "title": "Daily Routines",
+      "titleEs": "Rutinas Diarias",
+      "description": "Describe tus actividades del día a día",
+      "icon": "⏰",
+      "color": "#ff4b4b",
+      "lessons": [
+        {
+          "id": "lesson_4_1",
+          "title": "Morning Routine",
+          "titleEs": "Rutina de la Mañana",
+          "xpReward": 25,
+          "theory": {
+            "title": "Rutina de la Mañana",
+            "explanation": "El presente simple se usa para hablar de rutinas diarias. Usamos verbos en forma base.",
+            "grammar": "I + verbo base → I wake up (me despierto)\nI brush my teeth → Me cepillo los dientes\nI take a shower → Me doy una ducha\nI eat breakfast → Desayuno\nI go to school → Voy a la escuela",
+            "vocabulary": [
+              { "word": "Wake up", "translation": "Despertar(se)", "emoji": "⏰", "example": "I wake up at 7 AM." },
+              { "word": "Brush teeth", "translation": "Cepillarse dientes", "emoji": "🪥", "example": "I brush my teeth every morning." },
+              { "word": "Shower", "translation": "Ducha", "emoji": "🚿", "example": "I take a shower." },
+              { "word": "Breakfast", "translation": "Desayuno", "emoji": "🍳", "example": "I eat breakfast at 8." },
+              { "word": "Get dressed", "translation": "Vestirse", "emoji": "👕", "example": "I get dressed quickly." },
+              { "word": "School", "translation": "Escuela", "emoji": "🏫", "example": "I go to school at 8." }
+            ],
+            "tip": "💡 En inglés, el orden es: SUJETO + VERBO + COMPLEMENTO. 'I eat breakfast' (NO 'I breakfast eat')"
+          },
+          "exercises": [
+            { "type": "matching", "instruction": "Une la actividad con su traducción", "pairs": [["Wake up","Despertar"],["Shower","Ducha"],["Breakfast","Desayuno"],["School","Escuela"]], "xp": 5 },
+            { "type": "translate", "question": "¿Cómo se dice 'Me despierto a las 7'?", "answer": "I wake up at 7", "options": ["I wake up at 7","I sleep at 7","I eat at 7","I run at 7"], "xp": 4 },
+            { "type": "wordorder", "instruction": "Ordena la rutina matutina", "words": ["I","brush","my","teeth","every","morning"], "answer": "I brush my teeth every morning", "answerEs": "Me cepillo los dientes cada mañana", "xp": 6 },
+            { "type": "speak", "instruction": "Repite esta frase sobre tu rutina", "text": "I brush my teeth every morning", "textEs": "Me cepillo los dientes cada mañana", "answer": "I brush my teeth every morning", "xp": 5 },
+            { "type": "fillblank", "sentence": "I ___ breakfast at 8 o'clock", "answer": "eat", "options": ["eat","sleep","run","read"], "xp": 4 },
+            { "type": "listen", "instruction": "Escucha y escribe la oración", "text": "I take a shower in the morning", "answer": "I take a shower in the morning", "xp": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit_5",
+      "title": "Family & Friends",
+      "titleEs": "Familia y Amigos",
+      "description": "Aprende a hablar sobre tu familia",
+      "icon": "👨‍👩‍👧‍👦",
+      "color": "#1cb0f6",
+      "lessons": [
+        {
+          "id": "lesson_5_1",
+          "title": "My Family",
+          "titleEs": "Mi Familia",
+          "xpReward": 25,
+          "theory": {
+            "title": "La Familia en Inglés",
+            "explanation": "Los miembros de la familia en inglés no tienen género en la mayoría de casos.",
+            "grammar": "Mother / Mom → Madre / Mamá\nFather / Dad → Padre / Papá\nBrother → Hermano\nSister → Hermana\nGrandmother → Abuela\nGrandfather → Abuelo",
+            "vocabulary": [
+              { "word": "Mother", "translation": "Madre", "emoji": "👩", "example": "My mother is kind." },
+              { "word": "Father", "translation": "Padre", "emoji": "👨", "example": "My father is tall." },
+              { "word": "Brother", "translation": "Hermano", "emoji": "👦", "example": "I have two brothers." },
+              { "word": "Sister", "translation": "Hermana", "emoji": "👧", "example": "My sister is funny." },
+              { "word": "Grandmother", "translation": "Abuela", "emoji": "👵", "example": "My grandmother cooks well." },
+              { "word": "Grandfather", "translation": "Abuelo", "emoji": "👴", "example": "My grandfather is 70." }
+            ],
+            "tip": "💡 'Mom' y 'Dad' son versiones informales de 'Mother' y 'Father'. Son las más usadas en conversación."
+          },
+          "exercises": [
+            { "type": "matching", "instruction": "Une el familiar con su traducción", "pairs": [["Mother","Madre"],["Father","Padre"],["Brother","Hermano"],["Sister","Hermana"]], "xp": 5 },
+            { "type": "translate", "question": "¿Cómo se dice 'madre' en inglés?", "answer": "mother", "options": ["mother","father","sister","brother"], "xp": 4 },
+            { "type": "wordorder", "instruction": "Presenta a tu familia", "words": ["This","is","my","family"], "answer": "This is my family", "answerEs": "Esta es mi familia", "xp": 5 },
+            { "type": "speak", "instruction": "Presenta a tu familia", "text": "This is my family", "textEs": "Esta es mi familia", "answer": "This is my family", "xp": 4 },
+            { "type": "fillblank", "sentence": "My ___ is very kind (papá)", "answer": "father", "options": ["father","mother","sister","aunt"], "xp": 4 },
+            { "type": "listen", "instruction": "Escucha y escribe", "text": "I have two brothers", "answer": "I have two brothers", "xp": 4 },
+            { "type": "translate", "question": "¿Cómo se dice 'abuela' en inglés?", "answer": "grandmother", "options": ["grandmother","grandfather","aunt","cousin"], "xp": 4 }
+          ]
+        }
+      ]
+    }
+  ]
+}

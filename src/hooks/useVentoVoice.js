@@ -19,6 +19,9 @@ export const useVentoVoice = () => {
             utterance.rate = 0.9;
             utterance.pitch = 0.8; // Bajamos un poco el tono para que suene más grave/masculino
 
+            // Prevenir bug de Chrome donde corta el audio abruptamente por Garbage Collection
+            window._ventoVoiceUtterance = utterance;
+
             window.speechSynthesis.speak(utterance);
         }
     };

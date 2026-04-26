@@ -10,6 +10,7 @@ import { useVentoVoice } from '../hooks/useVentoVoice';
 import * as faceapi from 'face-api.js';
 import FaceScanner from '../components/FaceScanner';
 import { apiFetch, saveSession, GOOGLE_CLIENT_ID } from '../config/api';
+import { useAuth } from '../context/AuthContext';
 import './Login.css';
 
 /* ─── Umbral de reconocimiento facial ─── */
@@ -24,7 +25,21 @@ const Login = () => {
      'face-scan-reg'  → paso 2: escanear y registrar
   */
   const navigate = useNavigate();
+  const { login: authLogin } = useAuth();
   const [mode, setMode] = useState('login');
+
+  /* ── Iniciar sesión en AuthContext y navegar al dashboard ── */
+  const redirectToApp = (user) => {
+    authLogin({
+      id:       user.id     || null,       // Firestore doc ID — necesario para guardar progreso
+      name:     user.name   || user.email,
+      email:    user.email  || '',
+      role:     user.role   || 'student',
+      method:   user.method || 'email',
+      progress: user.progress || {},       // Progreso guardado en Firebase
+    });
+    navigate('/dashboard');
+  };
 
   const [email,        setEmail]        = useState('');
   const [password,     setPassword]     = useState('');
@@ -168,7 +183,7 @@ const Login = () => {
       saveSession(data.token, data.user);
       speak('Bienvenido de nuevo.');
       setMessage({ text: `¡Bienvenido ${data.user.name}! Redirigiendo…`, type: 'success' });
-      setTimeout(() => navigate('/dashboard'), 1500);
+      setTimeout(() => redirectToApp(data.user), 1500);
     } catch (err) {
       setMessage({ text: err.message, type: 'error' });
       speak('Acceso denegado.');
@@ -194,7 +209,7 @@ const Login = () => {
 
       saveSession(data.token, data.user);
       speak('Acceso con Google exitoso. ¡Bienvenido!');
-      navigate('/dashboard');
+      redirectToApp(data.user);
     } catch (err) {
       setMessage({ text: err.message || 'Error con Google', type: 'error' });
     }
@@ -233,13 +248,13 @@ const Login = () => {
       if (bestDist < FACE_MATCH_THRESHOLD && bestMatch) {
         /* Node.js ya verificó la identidad (devolvió los perfiles).
            Guardamos la sesión con saveSession para consistencia. */
-        const user = { name: bestMatch.name, email: bestMatch.email };
+        const user = { name: bestMatch.name, email: bestMatch.email, method: 'face-id' };
         saveSession('face-id-session', user); // token marcado como face-id
 
         speak(`Identidad confirmada. Bienvenido, ${bestMatch.name}.`);
         setMessage({ text: `¡Hola ${bestMatch.name}! Redirigiendo…`, type: 'success' });
         setMode('login');
-        setTimeout(() => navigate('/dashboard'), 1500);
+        setTimeout(() => redirectToApp(user), 1500);
       } else {
         speak('Rostro no reconocido. Regístrate primero.');
         setMessage({ text: 'Rostro no reconocido. ¿Ya registraste tu cara?', type: 'error' });

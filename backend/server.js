@@ -114,18 +114,30 @@ app.post('/api/login', async (req, res) => {
     try {
         const user = await findUserByEmail(email);
 
-        // Usuario no existe
         if (!user) return res.status(401).json({ error: 'Correo o contraseña incorrectos' });
-
-        // Usuario de Google (sin contraseña)
         if (!user.password) return res.status(401).json({ error: 'Esta cuenta usa Google. Inicia sesión con Google.' });
 
-        // Verificar contraseña con bcrypt (Node.js la procesa aquí)
         const valid = await bcrypt.compare(password, user.password);
         if (!valid) return res.status(401).json({ error: 'Correo o contraseña incorrectos' });
 
+        // Actualizar lastLogin
+        await db.collection('users').doc(user.id).update({
+            lastLogin: admin.firestore.FieldValue.serverTimestamp(),
+            loginCount: admin.firestore.FieldValue.increment(1),
+        });
+
         const token = signToken(user);
-        res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
+        res.json({
+            token,
+            user: {
+                id:       user.id,
+                name:     user.name,
+                email:    user.email,
+                role:     user.role || 'student',
+                method:   'email',
+                progress: user.progress || {},
+            },
+        });
     } catch (err) {
         console.error('Login error:', err);
         res.status(500).json({ error: 'Error interno del servidor' });
@@ -142,29 +154,44 @@ app.post('/api/google-login', async (req, res) => {
     if (!credential) return res.status(400).json({ error: 'Credencial de Google requerida' });
 
     try {
-        // Verificar el token con Google (Node.js valida aquí, no el navegador)
         const ticket = await googleClient.verifyIdToken({
             idToken:  credential,
             audience: process.env.GOOGLE_CLIENT_ID,
         });
         const { sub: google_id, email, name } = ticket.getPayload();
 
-        // Buscar si ya existe el usuario
         let user = await findUserByEmail(email);
 
         if (!user) {
-            // Crear usuario nuevo (primer login con Google)
             const ref = await db.collection('users').add({
                 name, email: email.toLowerCase(),
                 password:  null,
                 google_id,
+                role:      'student',
+                progress:  {},
                 createdAt: admin.firestore.FieldValue.serverTimestamp(),
             });
-            user = { id: ref.id, name, email };
+            user = { id: ref.id, name, email, role: 'student', progress: {} };
         }
 
+        // Actualizar lastLogin
+        await db.collection('users').doc(user.id).update({
+            lastLogin:  admin.firestore.FieldValue.serverTimestamp(),
+            loginCount: admin.firestore.FieldValue.increment(1),
+        }).catch(() => {});
+
         const token = signToken(user);
-        res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
+        res.json({
+            token,
+            user: {
+                id:       user.id,
+                name:     user.name,
+                email:    user.email,
+                role:     user.role || 'student',
+                method:   'google',
+                progress: user.progress || {},
+            },
+        });
     } catch (err) {
         console.error('Google login error:', err);
         res.status(401).json({ error: 'Token de Google inválido' });
@@ -250,16 +277,101 @@ app.get('/api/verify', verifyToken, (req, res) => {
 });
 
 /* ══════════════════════════════════════════════════
+   8) GUARDAR PROGRESO DEL USUARIO
+   PUT /api/progress/:userId
+   Body: { module, data }
+══════════════════════════════════════════════════ */
+app.put('/api/progress/:userId', async (req, res) => {
+    const { userId } = req.params;
+    const { module, data } = req.body;
+    if (!module || !data)
+        return res.status(400).json({ error: 'module y data son requeridos' });
+
+    try {
+        await db.collection('users').doc(userId).update({
+            [`progress.${module}`]: data,
+            updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+        });
+        res.json({ ok: true, message: 'Progreso guardado' });
+    } catch (err) {
+        console.error('Progress save error:', err);
+        res.status(500).json({ error: 'Error al guardar progreso' });
+    }
+});
+
+/* ══════════════════════════════════════════════════
+   9) CARGAR PROGRESO DEL USUARIO
+   GET /api/progress/:userId
+══════════════════════════════════════════════════ */
+app.get('/api/progress/:userId', async (req, res) => {
+    try {
+        const doc = await db.collection('users').doc(req.params.userId).get();
+        if (!doc.exists) return res.status(404).json({ error: 'Usuario no encontrado' });
+        const data = doc.data();
+        res.json({ progress: data.progress || {} });
+    } catch (err) {
+        console.error('Progress load error:', err);
+        res.status(500).json({ error: 'Error al cargar progreso' });
+    }
+});
+
+/* ══════════════════════════════════════════════════
+   10) LISTA DE USUARIOS (para AdminPanel)
+   GET /api/users
+══════════════════════════════════════════════════ */
+app.get('/api/users', async (req, res) => {
+    try {
+        const snap = await db.collection('users').get();
+        const users = snap.docs.map(doc => {
+            const d = doc.data();
+            return {
+                id:          doc.id,
+                name:        d.name,
+                email:       d.email,
+                method:      d.google_id ? 'google' : d.password ? 'email' : 'face',
+                role:        d.role || 'student',
+                progress:    d.progress || {},
+                loginCount:  d.loginCount || 0,
+                lastLogin:   d.lastLogin?.toDate?.()?.toISOString() || null,
+                registeredAt:d.createdAt?.toDate?.()?.toISOString() || null,
+            };
+        });
+        res.json({ success: true, users });
+    } catch (err) {
+        console.error('Get users error:', err);
+        res.status(500).json({ error: 'Error al obtener usuarios' });
+    }
+});
+
+/* ══════════════════════════════════════════════════
+   11) LISTA DE ADMINS (para AdminPanel)
+   GET /api/admins
+══════════════════════════════════════════════════ */
+app.get('/api/admins', async (req, res) => {
+    try {
+        const snap = await db.collection('users').where('role', '==', 'admin').get();
+        const admins = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        res.json({ success: true, admins });
+    } catch (err) {
+        res.status(500).json({ error: 'Error al obtener admins' });
+    }
+});
+
+/* ══════════════════════════════════════════════════
    INICIAR SERVIDOR
 ══════════════════════════════════════════════════ */
 app.listen(PORT, () => {
     console.log(`\n🚀 VentoEdu Backend corriendo en http://localhost:${PORT}`);
     console.log(`📦 Endpoints disponibles:`);
-    console.log(`   POST /api/register`);
-    console.log(`   POST /api/login`);
-    console.log(`   POST /api/google-login`);
-    console.log(`   POST /api/face-profile`);
-    console.log(`   GET  /api/face-profiles`);
+    console.log(`   POST   /api/register`);
+    console.log(`   POST   /api/login`);
+    console.log(`   POST   /api/google-login`);
+    console.log(`   POST   /api/face-profile`);
+    console.log(`   GET    /api/face-profiles`);
     console.log(`   DELETE /api/face-profile/:id`);
-    console.log(`   GET  /api/verify\n`);
+    console.log(`   GET    /api/verify`);
+    console.log(`   PUT    /api/progress/:userId  ← NUEVO`);
+    console.log(`   GET    /api/progress/:userId  ← NUEVO`);
+    console.log(`   GET    /api/users             ← NUEVO`);
+    console.log(`   GET    /api/admins            ← NUEVO\n`);
 });
