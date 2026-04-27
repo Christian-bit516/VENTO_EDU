@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { sounds, speakText } from '../../hooks/useSounds';
 import './LessonTheory.css';
 
-/* ── Animated vocab card with audio ── */
-const VocabCard = ({ word, translation, emoji, example, index }) => {
+/* ── Animated vocab card with audio — lang is dynamic ── */
+const VocabCard = ({ word, translation, emoji, example, index, speakLang }) => {
   const [flipped, setFlipped] = useState(false);
-  const [played, setPlayed] = useState(false);
+  const [played,  setPlayed]  = useState(false);
 
   const handleClick = () => {
     sounds.click();
     setFlipped(!flipped);
     if (!flipped && !played) {
-      setTimeout(() => speakText(word, 'en-US', 0.8), 300);
+      setTimeout(() => speakText(word, speakLang, 0.85), 300);
       setPlayed(true);
     }
   };
@@ -34,7 +34,8 @@ const VocabCard = ({ word, translation, emoji, example, index }) => {
           <div className="vocab-card-emoji">{emoji}</div>
           <div className="vocab-word-es">{translation}</div>
           <div className="vocab-example-line">"{example}"</div>
-          <button className="vocab-hear-btn" onClick={e => { e.stopPropagation(); sounds.listen(); speakText(word, 'en-US', 0.8); }}>
+          <button className="vocab-hear-btn"
+            onClick={e => { e.stopPropagation(); sounds.listen(); speakText(word, speakLang, 0.85); }}>
             🔊 Escuchar
           </button>
         </div>
@@ -51,11 +52,11 @@ const GrammarRule = ({ rule, index }) => (
   </div>
 );
 
-/* ═══ LESSON THEORY ═══════════════════════════════════════════════════════ */
-const LessonTheory = ({ lesson, onStart, onBack }) => {
+/* ═══ LESSON THEORY — speakLang prop added ══════════════════════════════════ */
+const LessonTheory = ({ lesson, onStart, onBack, speakLang = 'en-US' }) => {
   const { theory } = lesson;
-  const [tab, setTab] = useState('vocab');
-  const [revealed, setRevealed] = useState(new Set());
+  const [tab,         setTab]         = useState('vocab');
+  const [revealed,    setRevealed]    = useState(new Set());
   const [allRevealed, setAllRevealed] = useState(false);
 
   useEffect(() => {
@@ -68,7 +69,7 @@ const LessonTheory = ({ lesson, onStart, onBack }) => {
 
   return (
     <div className="theory-container">
-      {/* ── Hero Header ── */}
+      {/* Hero Header */}
       <div className="theory-hero">
         <button className="theory-back-pill" onClick={() => { sounds.navigate(); onBack(); }}>
           ← Volver
@@ -77,7 +78,7 @@ const LessonTheory = ({ lesson, onStart, onBack }) => {
         <h1 className="theory-hero-title">{theory.title}</h1>
         <p className="theory-hero-desc">{theory.explanation}</p>
         <div className="theory-meta-pills">
-          <span className="theory-meta-pill vocab-pill">📚 {theory.vocabulary.length} palabras</span>
+          <span className="theory-meta-pill vocab-pill">📚 {theory.vocabulary.length} conceptos</span>
           <span className="theory-meta-pill exercise-pill">🎯 {lesson.exercises.length} ejercicios</span>
           <span className="theory-meta-pill xp-pill">⚡ +{lesson.xpReward} XP</span>
         </div>
@@ -89,27 +90,26 @@ const LessonTheory = ({ lesson, onStart, onBack }) => {
         )}
       </div>
 
-      {/* ── Tab bar ── */}
+      {/* Tab bar */}
       <div className="theory-tabs">
-        <button className={`theory-tab ${tab === 'vocab' ? 'active green' : ''}`}
+        <button className={`theory-tab ${tab==='vocab'?'active green':''}`}
           onClick={() => { sounds.click(); setTab('vocab'); }}>
-          <span>📚</span> Vocabulario
+          <span>📚</span> Conceptos
           <span className="tab-count">{theory.vocabulary.length}</span>
         </button>
-        <button className={`theory-tab ${tab === 'grammar' ? 'active blue' : ''}`}
+        <button className={`theory-tab ${tab==='grammar'?'active blue':''}`}
           onClick={() => { sounds.click(); setTab('grammar'); }}>
-          <span>📐</span> Gramática
+          <span>📐</span> Teoría
         </button>
-        <button className={`theory-tab ${tab === 'examples' ? 'active purple' : ''}`}
+        <button className={`theory-tab ${tab==='examples'?'active purple':''}`}
           onClick={() => { sounds.click(); setTab('examples'); }}>
           <span>💬</span> Ejemplos
         </button>
       </div>
 
-      {/* ── Tab Content ── */}
+      {/* Tab Content */}
       <div className="theory-tab-content">
 
-        {/* Vocabulary tab */}
         {tab === 'vocab' && (
           <div className="vocab-section">
             <div className="vocab-hint-bar">
@@ -118,51 +118,47 @@ const LessonTheory = ({ lesson, onStart, onBack }) => {
             </div>
             <div className="vocab-cards-grid">
               {theory.vocabulary.map((v, i) => (
-                <VocabCard key={i} index={i} {...v}
+                <VocabCard key={i} index={i} {...v} speakLang={speakLang}
                   onReveal={() => setRevealed(prev => new Set([...prev, i]))} />
               ))}
             </div>
             <div className="vocab-progress-row">
               <div className="vocab-progress-bar-wrap">
                 <div className="vocab-progress-fill"
-                  style={{ width: `${(revealed.size / theory.vocabulary.length) * 100}%` }} />
+                  style={{ width:`${(revealed.size/theory.vocabulary.length)*100}%` }} />
               </div>
               <span className="vocab-progress-label">{revealed.size}/{theory.vocabulary.length} tarjetas</span>
             </div>
           </div>
         )}
 
-        {/* Grammar tab */}
         {tab === 'grammar' && (
           <div className="grammar-section">
             <div className="grammar-hero-card">
               <div className="grammar-hero-icon">📐</div>
-              <h3 className="grammar-hero-title">Estructura Gramatical</h3>
+              <h3 className="grammar-hero-title">Conceptos Clave</h3>
             </div>
             <div className="grammar-rules-list">
               {grammarLines.map((line, i) => <GrammarRule key={i} rule={line} index={i} />)}
             </div>
             {theory.tip && (
               <div className="grammar-tip-card">
-                <div className="grammar-tip-header">
-                  <span>💡</span> Consejo Pro
-                </div>
+                <div className="grammar-tip-header"><span>💡</span> Consejo Pro</div>
                 <p>{theory.tip}</p>
               </div>
             )}
             <div className="grammar-practice-note">
               <span>🎯</span>
-              <span>Practica estas estructuras en los ejercicios que siguen</span>
+              <span>Practica estas ideas en los ejercicios que siguen</span>
             </div>
           </div>
         )}
 
-        {/* Examples tab */}
         {tab === 'examples' && (
           <div className="examples-section">
-            <p className="examples-intro">Escucha y aprende con ejemplos reales</p>
+            <p className="examples-intro">Escucha y aprende con ejemplos reales 🔊</p>
             {theory.vocabulary.map((v, i) => (
-              <div key={i} className="example-card" style={{ animationDelay: `${i * 0.06}s` }}>
+              <div key={i} className="example-card" style={{ animationDelay:`${i*0.06}s` }}>
                 <div className="example-card-left">
                   <span className="example-emoji">{v.emoji}</span>
                   <div className="example-words">
@@ -173,7 +169,7 @@ const LessonTheory = ({ lesson, onStart, onBack }) => {
                 <div className="example-card-right">
                   <span className="example-sentence">"{v.example}"</span>
                   <button className="example-hear-btn"
-                    onClick={() => { sounds.listen(); speakText(v.example, 'en-US', 0.85); }}>
+                    onClick={() => { sounds.listen(); speakText(v.example, speakLang, 0.85); }}>
                     🔊
                   </button>
                 </div>
@@ -183,22 +179,13 @@ const LessonTheory = ({ lesson, onStart, onBack }) => {
         )}
       </div>
 
-      {/* ── CTA (scrolls with content, not fixed) ── */}
+      {/* CTA */}
       <div className="theory-cta-section">
         <div className="theory-cta-card">
           <div className="theory-cta-info">
-            <div className="cta-info-item">
-              <span className="cta-info-icon">🎯</span>
-              <span>{lesson.exercises.length} ejercicios</span>
-            </div>
-            <div className="cta-info-item">
-              <span className="cta-info-icon">⚡</span>
-              <span>+{lesson.xpReward} XP</span>
-            </div>
-            <div className="cta-info-item">
-              <span className="cta-info-icon">🎮</span>
-              <span>Minijuegos incluidos</span>
-            </div>
+            <div className="cta-info-item"><span className="cta-info-icon">🎯</span><span>{lesson.exercises.length} ejercicios</span></div>
+            <div className="cta-info-item"><span className="cta-info-icon">⚡</span><span>+{lesson.xpReward} XP</span></div>
+            <div className="cta-info-item"><span className="cta-info-icon">🎮</span><span>Minijuegos incluidos</span></div>
           </div>
           <button className="theory-start-btn" onClick={() => { sounds.lessonStart(); onStart(); }}>
             🚀 ¡Empezar Práctica!

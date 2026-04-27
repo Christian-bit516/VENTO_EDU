@@ -241,22 +241,23 @@ export const sounds = {
   },
 };
 
-/* ── Premium TTS voice selector ── */
+/* ── Premium TTS voice selector (fix: async voice loading in Chrome) ── */
 export const speakText = (text, lang = 'en-US', rate = 0.85) => {
   if (!('speechSynthesis' in window)) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = lang;
-  u.rate = rate;
-  u.pitch = 1.05;
-  u.volume = 1;
 
-  /* Try to pick the best available voice */
-  const voices = window.speechSynthesis.getVoices();
-  if (voices.length > 0) {
-    const preferred = lang === 'en-US'
-      ? ['Google US English', 'Microsoft Zira', 'Samantha', 'Google UK English Female', 'Alex']
-      : ['Google español', 'Microsoft Sabina', 'Paulina', 'Jorge'];
+  const preferred = lang === 'en-US'
+    ? ['Google US English', 'Microsoft Zira', 'Samantha', 'Google UK English Female', 'Alex']
+    : ['Google español de Estados Unidos', 'Google español', 'Microsoft Sabina', 'Paulina', 'Jorge'];
+
+  const doSpeak = () => {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang   = lang;
+    u.rate   = rate;
+    u.pitch  = 1.05;
+    u.volume = 1;
+
+    const voices = window.speechSynthesis.getVoices();
     let best = null;
     for (const name of preferred) {
       best = voices.find(v => v.name.includes(name));
@@ -264,9 +265,27 @@ export const speakText = (text, lang = 'en-US', rate = 0.85) => {
     }
     if (!best) best = voices.find(v => v.lang.startsWith(lang.slice(0, 2)));
     if (best) u.voice = best;
-  }
 
-  window.speechSynthesis.speak(u);
+    // Prevenir GC en Chrome
+    window._ventoSpeakUtterance = u;
+    window.speechSynthesis.speak(u);
+  };
+
+  const voices = window.speechSynthesis.getVoices();
+  if (voices.length > 0) {
+    doSpeak();
+  } else {
+    const handler = () => {
+      window.speechSynthesis.removeEventListener('voiceschanged', handler);
+      doSpeak();
+    };
+    window.speechSynthesis.addEventListener('voiceschanged', handler);
+    // Safety fallback
+    setTimeout(() => {
+      window.speechSynthesis.removeEventListener('voiceschanged', handler);
+      doSpeak();
+    }, 1500);
+  }
 };
 
 export default sounds;

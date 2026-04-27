@@ -1,0 +1,182 @@
+{
+  "units": [
+    {
+      "id": "math_unit_1", "title": "Suma y Resta", "titleEs": "Suma y Resta",
+      "description": "Aprende a sumar y restar con facilidad", "icon": "➕", "color": "#00b894",
+      "lessons": [
+        {
+          "id": "math_1_1", "title": "Sumar hasta 10", "titleEs": "Sumar hasta 10", "xpReward": 20,
+          "theory": {
+            "title": "La Suma: Juntar Cantidades",
+            "explanation": "Sumar significa unir dos o más cantidades para obtener un total. El signo de suma es el + (más).",
+            "grammar": "3 + 4 = 7 → tres más cuatro igual a siete\n0 + 5 = 5 → cero más cinco igual cinco\n5 + 5 = 10 → cinco más cinco igual diez\nPropiedad conmutativa: 3+4 = 4+3\nNeutro: cualquier número + 0 = mismo número",
+            "vocabulary": [
+              {"word":"Suma","translation":"Operación para unir","emoji":"➕","example":"3 + 4 = 7 es una suma."},
+              {"word":"Sumandos","translation":"Números que se suman","emoji":"🔢","example":"En 3+4, los sumandos son 3 y 4."},
+              {"word":"Resultado","translation":"Número final obtenido","emoji":"🎯","example":"En 3+4=7, el resultado es 7."},
+              {"word":"Total","translation":"Suma de todo","emoji":"💯","example":"El total de 2+3+5 es 10."},
+              {"word":"Más","translation":"Símbolo + de la suma","emoji":"➕","example":"Cinco más tres son ocho."},
+              {"word":"Igual","translation":"Símbolo = resultado","emoji":"🟰","example":"Dos más dos igual cuatro."}
+            ],
+            "tip": "💡 Truco: Para sumar rápido, empieza con el número mayor. Ej: 7+3, empieza en 7 y cuenta 3 más."
+          },
+          "exercises": [
+            { "type": "translate", "question": "¿Cuánto es 3 + 4?", "answer": "7", "options": ["7","6","8","9"], "xp": 3 },
+            { "type": "visual", "question": "¿Cuántas estrellas hay?", "count": 5, "emoji": "⭐", "answer": "5", "options": ["4","5","6","7"], "xp": 5 },
+            { "type": "translate", "question": "¿Cuánto es 5 + 5?", "answer": "10", "options": ["10","9","8","11"], "xp": 3 },
+            { "type": "visual", "question": "¿Cuántos corazones hay?", "count": 8, "emoji": "❤️", "answer": "8", "options": ["6","7","8","9"], "xp": 5 },
+            { "type": "balance", "question": "¿Qué número balancea la ecuación? 7 + ___ = 10", "left": 7, "op": "+", "missing": 3, "answer": "3", "options": ["2","3","4","5"], "xp": 7 },
+            { "type": "mental_math", "question": "¿Cuánto es 6 + 3?", "answer": "9", "timeLimit": 10, "xp": 6 },
+            { "type": "fillblank", "sentence": "6 + ___ = 10", "answer": "4", "options": ["4","3","5","6"], "xp": 5 },
+            { "type": "balance", "question": "¿Qué número balancea? 5 + ___ = 8", "left": 5, "op": "+", "missing": 3, "answer": "3", "options": ["2","3","4","5"], "xp": 7 },
+            { "type": "matching", "instruction": "Une la suma con su resultado", "pairs": [["2+3","5"],["4+4","8"],["1+6","7"],["3+3","6"]], "xp": 6 }
+          ]
+        },
+        {
+          "id": "math_1_2", "title": "Restar hasta 10", "titleEs": "Restar hasta 10", "xpReward": 20,
+          "theory": {
+            "title": "La Resta: Quitar Cantidades",
+            "explanation": "Restar significa quitar una cantidad a otra. El signo de resta es el - (menos). El resultado siempre es menor o igual.",
+            "grammar": "8 - 3 = 5 → ocho menos tres igual a cinco\n10 - 0 = 10 → cualquier número - 0 = mismo número\n5 - 5 = 0 → un número menos sí mismo = cero\nMinuendo - Sustraendo = Diferencia\nNO es conmutativa: 8-3 ≠ 3-8",
+            "vocabulary": [
+              {"word":"Resta","translation":"Operación para quitar","emoji":"➖","example":"10 - 4 = 6 es una resta."},
+              {"word":"Minuendo","translation":"Número del que se resta","emoji":"🔟","example":"En 10-4, el minuendo es 10."},
+              {"word":"Sustraendo","translation":"Número que se quita","emoji":"4️⃣","example":"En 10-4, el sustraendo es 4."},
+              {"word":"Diferencia","translation":"Resultado de la resta","emoji":"🎯","example":"En 10-4=6, la diferencia es 6."},
+              {"word":"Menos","translation":"Símbolo - de la resta","emoji":"➖","example":"Ocho menos tres son cinco."},
+              {"word":"Verificar","translation":"Comprobar con suma","emoji":"✅","example":"Verifica: si 8-3=5, entonces 5+3=8."}
+            ],
+            "tip": "💡 Truco para verificar: si 9-4=5, comprueba sumando: 5+4=9. ¡Así sabes si está bien!"
+          },
+          "exercises": [
+            {"type":"translate","question":"¿Cuánto es 9 - 4?","answer":"5","options":["5","4","6","3"],"xp":3},
+            {"type":"translate","question":"¿Cuánto es 10 - 7?","answer":"3","options":["3","2","4","7"],"xp":3},
+            {"type":"fillblank","sentence":"8 - ___ = 5","answer":"3","options":["3","4","2","5"],"xp":5},
+            {"type":"speed","question":"¿Cuánto es 6 - 6?","answer":"0","options":["0","1","6","12"],"xp":5},
+            {"type":"matching","instruction":"Une la resta con su resultado","pairs":[["10-3","7"],["8-4","4"],["7-2","5"],["5-1","4"]],"xp":6},
+            {"type":"fillblank","sentence":"___ - 3 = 7","answer":"10","options":["10","9","8","6"],"xp":5},
+            {"type":"translate","question":"En 9 - 5 = 4, ¿cuál es la diferencia?","answer":"4","options":["4","9","5","14"],"xp":4}
+          ]
+        },
+        {
+          "id": "math_1_3", "title": "Sumar y Restar hasta 100", "titleEs": "Sumar y Restar hasta 100", "xpReward": 30,
+          "theory": {
+            "title": "Operaciones con Números Grandes",
+            "explanation": "Ahora extendemos suma y resta a números hasta 100. El truco es operar primero las unidades, luego las decenas.",
+            "grammar": "Unidades = posición de la derecha (1-9)\nDecenas = posición del medio (10,20...90)\n35 + 24: primero 5+4=9, luego 3+2=5 → 59\n67 - 32: primero 7-2=5, luego 6-3=3 → 35\nLlevada: cuando la suma de unidades ≥ 10\nEj: 27+36: 7+6=13, escribes 3 y llevas 1",
+            "vocabulary": [
+              {"word":"Decenas","translation":"Múltiplos de 10","emoji":"🔟","example":"10, 20, 30, 40 son decenas."},
+              {"word":"Unidades","translation":"Números del 1 al 9","emoji":"1️⃣","example":"En 35, el 5 son las unidades."},
+              {"word":"Llevada","translation":"Cuando sumas y sobrepasas 9","emoji":"⬆️","example":"7+6=13, la llevada es el 1."},
+              {"word":"Prestado","translation":"En resta cuando el de arriba es menor","emoji":"⬇️","example":"En 32-17, necesitas pedir prestado."},
+              {"word":"Decena","translation":"Grupo de 10 unidades","emoji":"📦","example":"1 decena = 10 unidades."},
+              {"word":"Centena","translation":"Grupo de 100 unidades","emoji":"💯","example":"1 centena = 10 decenas = 100 unidades."}
+            ],
+            "tip": "💡 Para sumar rápido números grandes, redondea a la decena más cercana: 48+35 ≈ 50+35=85, luego ajusta."
+          },
+          "exercises": [
+            {"type":"translate","question":"¿Cuánto es 23 + 14?","answer":"37","options":["37","36","38","27"],"xp":5},
+            {"type":"translate","question":"¿Cuánto es 50 + 30?","answer":"80","options":["80","70","90","85"],"xp":4},
+            {"type":"fillblank","sentence":"45 + ___ = 70","answer":"25","options":["25","15","30","20"],"xp":6},
+            {"type":"speed","question":"¿Cuánto es 100 - 40?","answer":"60","options":["60","50","70","40"],"xp":5},
+            {"type":"translate","question":"¿Cuánto es 78 - 35?","answer":"43","options":["43","42","44","53"],"xp":6},
+            {"type":"memory","instruction":"Empareja la operación con su resultado","pairs":[["20+30","50"],["60-20","40"],["45+10","55"],["90-50","40"]],"xp":7},
+            {"type":"fillblank","sentence":"___ - 25 = 50","answer":"75","options":["75","70","80","65"],"xp":6}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "math_unit_2", "title": "Multiplicación", "titleEs": "Multiplicación",
+      "description": "Domina las tablas de multiplicar", "icon": "✖️", "color": "#0984e3",
+      "lessons": [
+        {
+          "id": "math_2_1", "title": "Tabla del 2 y del 5", "titleEs": "Tabla del 2 y del 5", "xpReward": 30,
+          "theory": {
+            "title": "Multiplicar: Suma Repetida",
+            "explanation": "Multiplicar es sumar un número varias veces. Es mucho más rápido que sumar uno por uno.",
+            "grammar": "3 × 4 = 12 → 4+4+4 = 12\nTabla del 2: 2,4,6,8,10,12,14,16,18,20\nTabla del 5: 5,10,15,20,25,30,35,40,45,50\nTrucos del 2: siempre termina en número par\nTrucos del 5: siempre termina en 0 o 5\nPropiedad: 2×8 = 8×2 = 16",
+            "vocabulary": [
+              {"word":"Multiplicación","translation":"Suma repetida","emoji":"✖️","example":"3 × 4 significa sumar 3 cuatro veces."},
+              {"word":"Factor","translation":"Número que se multiplica","emoji":"🔢","example":"En 3×4, los factores son 3 y 4."},
+              {"word":"Producto","translation":"Resultado de multiplicar","emoji":"🎯","example":"El producto de 3×4 es 12."},
+              {"word":"Par","translation":"Número divisible entre 2","emoji":"2️⃣","example":"2,4,6,8,10 son números pares."},
+              {"word":"Tabla","translation":"Lista de multiplicaciones","emoji":"📋","example":"La tabla del 5 tiene los múltiplos de 5."},
+              {"word":"Múltiplo","translation":"Resultado de una tabla","emoji":"♾️","example":"10, 20, 30 son múltiplos de 10."}
+            ],
+            "tip": "💡 La tabla del 5 es fácil: siempre termina en 0 o 5. Y cuenta de 5 en 5: 5,10,15,20..."
+          },
+          "exercises": [
+            {"type":"translate","question":"¿Cuánto es 2 × 6?","answer":"12","options":["12","10","14","8"],"xp":4},
+            {"type":"translate","question":"¿Cuánto es 5 × 4?","answer":"20","options":["20","15","25","9"],"xp":4},
+            {"type":"matching","instruction":"Une la multiplicación con su resultado","pairs":[["2×3","6"],["2×7","14"],["5×3","15"],["5×6","30"]],"xp":7},
+            {"type":"fillblank","sentence":"2 × ___ = 16","answer":"8","options":["8","6","7","9"],"xp":5},
+            {"type":"speed","question":"¿Cuánto es 5 × 9?","answer":"45","options":["45","40","50","35"],"xp":6},
+            {"type":"fillblank","sentence":"5 × ___ = 35","answer":"7","options":["7","6","8","5"],"xp":5},
+            {"type":"translate","question":"¿Cuánto es 2 × 10?","answer":"20","options":["20","12","22","10"],"xp":4},
+            {"type":"speed","question":"¿Cuánto es 2 × 9?","answer":"18","options":["18","16","20","17"],"xp":5}
+          ]
+        },
+        {
+          "id": "math_2_2", "title": "Tabla del 3 y del 10", "titleEs": "Tabla del 3 y del 10", "xpReward": 30,
+          "theory": {
+            "title": "Tablas del 3 y del 10",
+            "explanation": "La tabla del 10 es la más fácil: solo añades un cero. La tabla del 3 requiere más memorización pero tiene un truco.",
+            "grammar": "Tabla del 10: 10,20,30,40,50,60,70,80,90,100\nTruco del 10: solo añade un 0 al factor\nTabla del 3: 3,6,9,12,15,18,21,24,27,30\nTruco del 3: la suma de sus dígitos es múltiplo de 3\nEj: 12 → 1+2=3 ✓ | 15 → 1+5=6 ✓",
+            "vocabulary": [
+              {"word":"Decena","translation":"Múltiplo de 10","emoji":"🔟","example":"10×5=50, añades un cero al 5."},
+              {"word":"Cero","translation":"Valor nulo","emoji":"0️⃣","example":"Cualquier número × 0 = 0."},
+              {"word":"Dígito","translation":"Cada número individual","emoji":"🔢","example":"El número 35 tiene dos dígitos: 3 y 5."},
+              {"word":"Suma de dígitos","translation":"Sumar cada cifra","emoji":"➕","example":"Los dígitos de 27 suman 2+7=9 (múltiplo de 3)."},
+              {"word":"Múltiplo de 3","translation":"Número divisible entre 3","emoji":"3️⃣","example":"9, 12, 15, 18 son múltiplos de 3."},
+              {"word":"Conmutatividad","translation":"El orden no cambia el resultado","emoji":"🔄","example":"3×7 = 7×3 = 21."}
+            ],
+            "tip": "💡 Para la tabla del 10: ¡solo añade un cero! 10×7 = 70, 10×9 = 90. ¡Súper fácil!"
+          },
+          "exercises": [
+            {"type":"translate","question":"¿Cuánto es 10 × 7?","answer":"70","options":["70","7","17","77"],"xp":3},
+            {"type":"translate","question":"¿Cuánto es 3 × 6?","answer":"18","options":["18","15","21","9"],"xp":4},
+            {"type":"matching","instruction":"Une la multiplicación con su resultado","pairs":[["10×4","40"],["10×8","80"],["3×4","12"],["3×9","27"]],"xp":7},
+            {"type":"fillblank","sentence":"10 × ___ = 60","answer":"6","options":["6","7","5","8"],"xp":4},
+            {"type":"speed","question":"¿Cuánto es 3 × 8?","answer":"24","options":["24","21","27","18"],"xp":6},
+            {"type":"fillblank","sentence":"3 × ___ = 30","answer":"10","options":["10","9","11","8"],"xp":5},
+            {"type":"memory","instruction":"Empareja multiplicaciones iguales","pairs":[["3×7","7×3"],["10×5","5×10"],["3×4","4×3"],["10×9","9×10"]],"xp":6}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "math_unit_3", "title": "División", "titleEs": "División",
+      "description": "Aprende a repartir y dividir cantidades", "icon": "➗", "color": "#e17055",
+      "lessons": [
+        {
+          "id": "math_3_1", "title": "División Básica", "titleEs": "División Básica", "xpReward": 35,
+          "theory": {
+            "title": "División: Repartir en Partes Iguales",
+            "explanation": "Dividir es repartir una cantidad en grupos iguales. Es la operación inversa de la multiplicación.",
+            "grammar": "12 ÷ 4 = 3 → repartir 12 en 4 grupos = 3 en cada grupo\nDividendo ÷ Divisor = Cociente\n12 ÷ 4: 12=dividendo, 4=divisor, 3=cociente\nVerificación: 3 × 4 = 12 ✓\nDivisión exacta: sin residuo (sobrante)\nDivisión inexacta: con residuo",
+            "vocabulary": [
+              {"word":"División","translation":"Repartir en partes iguales","emoji":"➗","example":"12 ÷ 3 = 4 es una división."},
+              {"word":"Dividendo","translation":"Número que se divide","emoji":"🔢","example":"En 12÷3, el dividendo es 12."},
+              {"word":"Divisor","translation":"Entre cuánto se divide","emoji":"3️⃣","example":"En 12÷3, el divisor es 3."},
+              {"word":"Cociente","translation":"Resultado de la división","emoji":"🎯","example":"En 12÷3=4, el cociente es 4."},
+              {"word":"Residuo","translation":"Lo que sobra al dividir","emoji":"🔄","example":"11÷3=3 con residuo 2."},
+              {"word":"Exacta","translation":"Sin residuo","emoji":"✅","example":"12÷4=3 es una división exacta."}
+            ],
+            "tip": "💡 Para dividir, usa la multiplicación al revés: ¿Cuánto × 4 = 20? Respuesta: 5. Entonces 20÷4=5."
+          },
+          "exercises": [
+            {"type":"translate","question":"¿Cuánto es 12 ÷ 4?","answer":"3","options":["3","4","2","6"],"xp":4},
+            {"type":"translate","question":"¿Cuánto es 20 ÷ 5?","answer":"4","options":["4","5","3","6"],"xp":4},
+            {"type":"matching","instruction":"Une la división con su resultado","pairs":[["10÷2","5"],["15÷3","5"],["8÷4","2"],["18÷6","3"]],"xp":7},
+            {"type":"fillblank","sentence":"24 ÷ ___ = 6","answer":"4","options":["4","3","6","8"],"xp":5},
+            {"type":"speed","question":"¿Cuánto es 30 ÷ 6?","answer":"5","options":["5","4","6","3"],"xp":6},
+            {"type":"translate","question":"En 15÷3=5, ¿cuál es el cociente?","answer":"5","options":["5","15","3","8"],"xp":4},
+            {"type":"fillblank","sentence":"___ ÷ 5 = 8","answer":"40","options":["40","35","45","30"],"xp":6},
+            {"type":"memory","instruction":"Empareja división con multiplicación inversa","pairs":[["10÷2=5","2×5=10"],["12÷3=4","3×4=12"],["20÷4=5","4×5=20"],["9÷3=3","3×3=9"]],"xp":7}
+          ]
+        }
+      ]
+    }
+  ]
+}

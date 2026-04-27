@@ -1,0 +1,178 @@
+{
+  "units": [
+    {
+      "id": "chess_unit_1", "title": "Las Piezas del Ajedrez", "titleEs": "Las Piezas del Ajedrez",
+      "description": "Conoce cada pieza y su valor", "icon": "♟️", "color": "#fdcb6e",
+      "lessons": [
+        {
+          "id": "chess_1_1", "title": "El Rey y la Reina", "titleEs": "El Rey y la Reina", "xpReward": 25,
+          "theory": {
+            "title": "Las Piezas Más Importantes",
+            "explanation": "El ajedrez tiene 6 tipos de piezas. El Rey es la pieza más importante (si lo atrapan, pierdes). La Reina es la más poderosa en movimiento.",
+            "grammar": "Rey (♔/♚) → se mueve 1 casilla en cualquier dirección\nReina (♕/♛) → se mueve cualquier casilla en cualquier dirección\nValor del Rey: infinito (si cae, pierdes)\nValor de la Reina: 9 puntos\nObjeto del juego: dar jaque mate al Rey rival\nJaque: el Rey está amenazado\nJaque Mate: el Rey no puede escapar → fin del juego",
+            "vocabulary": [
+              {"word":"Rey","translation":"King - pieza principal","emoji":"♚","example":"El Rey se mueve 1 casilla en cualquier dirección."},
+              {"word":"Reina","translation":"Queen - pieza más poderosa","emoji":"♛","example":"La Reina puede moverse en todas las direcciones."},
+              {"word":"Tablero","translation":"Board - 64 casillas 8×8","emoji":"♟️","example":"El tablero tiene 8 filas y 8 columnas = 64 casillas."},
+              {"word":"Jaque","translation":"Check - amenaza al Rey","emoji":"⚠️","example":"¡Jaque! significa que el Rey está en peligro."},
+              {"word":"Jaque Mate","translation":"Checkmate - fin del juego","emoji":"🏆","example":"El jaque mate termina la partida. ¡El que lo da, gana!"},
+              {"word":"Casilla","translation":"Square - cada cuadro del tablero","emoji":"⬛","example":"El tablero tiene 64 casillas."}
+            ],
+            "tip": "💡 El Rey y la Reina siempre empiezan en casillas de su propio color: Rey blanco en casilla blanca."
+          },
+          "exercises": [
+            { "type": "translate", "question": "¿Cuántas casillas se mueve el Rey?", "answer": "Solo 1 en cualquier dirección", "options": ["Solo 1 en cualquier dirección","Todas las que quiera","Solo en línea recta","Solo en diagonal"], "xp": 4 },
+            { "type": "piece_id", "question": "¿Cuál es esta pieza y cómo se mueve?", "piece": "♛", "answer": "Reina - se mueve en todas las direcciones", "options": ["Reina - se mueve en todas las direcciones","Rey - 1 casilla","Torre - línea recta","Alfil - diagonal"], "xp": 7 },
+            { "type": "piece_id", "question": "¿Qué pieza es esta?", "piece": "♚", "answer": "El Rey - la pieza más importante", "options": ["El Rey - la pieza más importante","La Reina","La Torre","El Alfil"], "xp": 7 },
+            { "type": "translate", "question": "¿Cuántas casillas tiene el tablero?", "answer": "64", "options": ["64","32","48","100"], "xp": 3 },
+            { "type": "material_value", "question": "¿Cuántos puntos valen estas piezas juntas?", "pieces": ["♛","♜"], "answer": "14", "options": ["12","14","16","9"], "xp": 8 },
+            { "type": "fillblank", "sentence": "El ___ significa que el Rey no puede escapar y el juego termina", "answer": "jaque mate", "options": ["jaque mate","jaque","enroque","tablas"], "xp": 5 },
+            { "type": "material_value", "question": "¿Cuántos puntos vale solo la Reina?", "pieces": ["♛"], "answer": "9", "options": ["5","7","9","12"], "xp": 6 },
+            { "type": "matching", "instruction": "Une la pieza con su descripción", "pairs": [["Rey","El más importante"],["Reina","La más poderosa"],["Jaque","Rey amenazado"],["Jaque Mate","Fin del juego"]], "xp": 6 },
+            { "type": "chess_game", "question": "♟️ ¡Demuestra lo aprendido! Juega una partida completa contra la IA", "xp": 20 }
+          ]
+        },
+        {
+          "id": "chess_1_2", "title": "Torres, Alfiles y Caballos", "titleEs": "Torres, Alfiles y Caballos", "xpReward": 30,
+          "theory": {
+            "title": "Las Piezas Intermedias",
+            "explanation": "Torre, Alfil y Caballo son piezas de gran valor. Cada una se mueve de forma única y tiene un rol especial en la partida.",
+            "grammar": "Torre (♖/♜) → se mueve en línea recta, horizontal o vertical, todas las casillas\nAlfil (♗/♝) → se mueve en diagonal todas las casillas. Siempre en su color.\nCaballo (♘/♞) → se mueve en 'L': 2 casillas + 1 lateral. Salta sobre piezas.\nValor Torre: 5 puntos\nValor Alfil: 3 puntos\nValor Caballo: 3 puntos",
+            "vocabulary": [
+              {"word":"Torre","translation":"Rook - movimiento recto","emoji":"♜","example":"La Torre se mueve en líneas rectas. Vale 5 puntos."},
+              {"word":"Alfil","translation":"Bishop - movimiento diagonal","emoji":"♝","example":"El Alfil siempre permanece en el mismo color de casillas."},
+              {"word":"Caballo","translation":"Knight - movimiento en L","emoji":"♞","example":"El Caballo es la única pieza que puede saltar sobre otras."},
+              {"word":"Movimiento en L","translation":"2 casillas + 1 lateral","emoji":"🔄","example":"El Caballo va 2 hacia adelante y 1 al lado (o viceversa)."},
+              {"word":"Saltar","translation":"Pasar sobre otras piezas","emoji":"🦘","example":"Solo el Caballo puede saltar sobre otras piezas."},
+              {"word":"Diagonal","translation":"Movimiento en esquina","emoji":"↗️","example":"El Alfil y la Reina pueden moverse en diagonal."}
+            ],
+            "tip": "💡 Recuerda el Caballo con la 'L': como la letra L que puedes rotar en cualquier dirección."
+          },
+          "exercises": [
+            {"type":"translate","question":"¿Cómo se mueve la Torre?","answer":"En línea recta (horizontal o vertical)","options":["En línea recta (horizontal o vertical)","En diagonal","En forma de L","Solo 1 casilla"],"xp":4},
+            {"type":"translate","question":"¿Cuánto vale la Torre en puntos?","answer":"5 puntos","options":["5 puntos","3 puntos","9 puntos","1 punto"],"xp":3},
+            {"type":"matching","instruction":"Une la pieza con su movimiento","pairs":[["Torre","Línea recta"],["Alfil","Diagonal"],["Caballo","Forma de L"],["Reina","Todas direcciones"]],"xp":7},
+            {"type":"fillblank","sentence":"El ___ puede saltar sobre otras piezas al moverse","answer":"caballo","options":["caballo","alfil","torre","peón"],"xp":5},
+            {"type":"speed","question":"El Alfil siempre se mueve en:","answer":"Diagonal","options":["Diagonal","Línea recta","Forma de L","Cualquier casilla"],"xp":5},
+            {"type":"translate","question":"¿Cuánto valen el Alfil y el Caballo?","answer":"3 puntos cada uno","options":["3 puntos cada uno","5 puntos cada uno","9 puntos","1 punto"],"xp":4},
+            {"type":"memory","instruction":"Empareja pieza con su valor en puntos","pairs":[["Reina","9"],["Torre","5"],["Alfil","3"],["Caballo","3"]],"xp":7}
+          ]
+        },
+        {
+          "id": "chess_1_3", "title": "El Peón: La Pieza del Pueblo", "titleEs": "El Peón: La Pieza del Pueblo", "xpReward": 25,
+          "theory": {
+            "title": "El Peón: Pequeño pero Poderoso",
+            "explanation": "Los peones son las 8 piezas pequeñas de primera fila. Parecen débiles, pero pueden convertirse en Reinas si llegan al otro lado.",
+            "grammar": "Peón (♙/♟) → avanza 1 casilla hacia adelante\nPrimer movimiento: puede avanzar 1 o 2 casillas\nCaptura: en diagonal (1 casilla al frente-lado)\nPromoción: si llega al otro extremo → se convierte en cualquier pieza\nEn passant: captura especial al paso\nValor: 1 punto\nCada jugador tiene 8 peones",
+            "vocabulary": [
+              {"word":"Peón","translation":"Pawn - pieza básica (×8)","emoji":"♟","example":"Cada jugador tiene 8 peones al inicio."},
+              {"word":"Avanzar","translation":"Moverse hacia adelante","emoji":"⬆️","example":"El peón solo avanza, nunca retrocede."},
+              {"word":"Captura","translation":"Eliminar pieza rival","emoji":"⚔️","example":"El peón captura en diagonal."},
+              {"word":"Promoción","translation":"Convertirse en pieza mayor","emoji":"🌟","example":"¡Peón al final del tablero = Reina!"},
+              {"word":"En passant","translation":"Captura especial al paso","emoji":"💨","example":"En passant es una captura especial de peón."},
+              {"word":"Coronación","translation":"Otro nombre para la promoción","emoji":"👑","example":"La coronación convierte el peón en Reina."}
+            ],
+            "tip": "💡 ¡Cuida tus peones! Un peón que llega al otro lado puede convertirse en Reina y cambiar toda la partida."
+          },
+          "exercises": [
+            {"type":"translate","question":"¿Cuántos peones tiene cada jugador?","answer":"8","options":["8","4","6","16"],"xp":3},
+            {"type":"translate","question":"¿Cómo captura el peón?","answer":"En diagonal","options":["En diagonal","Hacia adelante","En línea recta","En forma de L"],"xp":4},
+            {"type":"matching","instruction":"Une el concepto del peón con su descripción","pairs":[["Promoción","Se convierte en Reina"],["Captura","Ataque en diagonal"],["En passant","Captura especial"],["Valor","1 punto"]],"xp":6},
+            {"type":"fillblank","sentence":"Si un peón llega al otro extremo del tablero ocurre la ___","answer":"promoción","options":["promoción","captura","jaque","enroque"],"xp":5},
+            {"type":"speed","question":"¿Cuánto vale un peón?","answer":"1 punto","options":["1 punto","2 puntos","3 puntos","5 puntos"],"xp":4},
+            {"type":"translate","question":"En su primer movimiento, el peón puede avanzar:","answer":"1 o 2 casillas","options":["1 o 2 casillas","Solo 1 casilla","3 casillas","Las que quiera"],"xp":4}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chess_unit_2", "title": "Estrategia Básica", "titleEs": "Estrategia Básica",
+      "description": "Aprende a pensar como un ajedrecista", "icon": "🧠", "color": "#a29bfe",
+      "lessons": [
+        {
+          "id": "chess_2_1", "title": "Aberturas: Los Primeros Movimientos", "titleEs": "Aberturas: Los Primeros Movimientos", "xpReward": 35,
+          "theory": {
+            "title": "Cómo Comenzar una Partida",
+            "explanation": "Los primeros movimientos del ajedrez son cruciales. Una buena apertura te da control del tablero y protege al Rey.",
+            "grammar": "Principio 1: Controla el centro (e4, d4, e5, d5)\nPrincipio 2: Desarrolla piezas menores primero (caballos y alfiles)\nPrincipio 3: Enroca temprano para proteger al Rey\nPrincipio 4: No muevas la misma pieza dos veces en la apertura\nPrincipio 5: No saques la Reina muy temprano\nEnroque: mueve el Rey 2 casillas hacia la Torre (especial)",
+            "vocabulary": [
+              {"word":"Apertura","translation":"Primeros movimientos del juego","emoji":"🎭","example":"La apertura Italiana y la Española son muy populares."},
+              {"word":"Centro","translation":"Casillas e4,d4,e5,d5","emoji":"🎯","example":"Controlar el centro da ventaja de movimiento."},
+              {"word":"Desarrollo","translation":"Poner piezas en juego","emoji":"🚀","example":"Desarrolla tus caballos y alfiles antes que la Reina."},
+              {"word":"Enroque","translation":"Rey+Torre movimiento especial","emoji":"🏰","example":"El enroque protege al Rey detrás de peones."},
+              {"word":"Táctica","translation":"Plan a corto plazo","emoji":"⚡","example":"Una táctica busca ganar material rápidamente."},
+              {"word":"Estrategia","translation":"Plan a largo plazo","emoji":"📋","example":"La estrategia es el plan general de la partida."}
+            ],
+            "tip": "💡 Regla de oro: ¡Enroca antes del movimiento 10! Un Rey en el centro es un Rey en peligro."
+          },
+          "exercises": [
+            {"type":"translate","question":"¿Cuál es el primer principio de la apertura?","answer":"Controlar el centro","options":["Controlar el centro","Mover la Reina","Atacar al Rey","Mover peones"],"xp":4},
+            {"type":"translate","question":"¿Qué piezas debes desarrollar primero en la apertura?","answer":"Caballos y alfiles","options":["Caballos y alfiles","La Reina","Las Torres","Los peones"],"xp":5},
+            {"type":"matching","instruction":"Une el principio con su descripción","pairs":[["Apertura","Primeros movimientos"],["Enroque","Proteger al Rey"],["Centro","e4,d4,e5,d5"],["Desarrollo","Piezas en juego"]],"xp":7},
+            {"type":"fillblank","sentence":"El ___ es un movimiento especial que mueve el Rey y la Torre a la vez","answer":"enroque","options":["enroque","jaque","desarrollo","táctica"],"xp":5},
+            {"type":"speed","question":"¿Qué NO debes hacer temprano en la apertura?","answer":"Sacar la Reina muy pronto","options":["Sacar la Reina muy pronto","Mover caballos","Controlar el centro","Enrocar"],"xp":5},
+            {"type":"translate","question":"¿Cuántas casillas se mueve el Rey al enrocar?","answer":"2 casillas","options":["2 casillas","1 casilla","3 casillas","No se mueve"],"xp":4},
+            {"type":"chess_game","question":"♟️ ¡Practica la apertura! Juega 1 partida aplicando los principios aprendidos","xp":20}
+          ]
+        },
+        {
+          "id": "chess_2_2", "title": "Tácticas: Horquilla y Clavada", "titleEs": "Tácticas: Horquilla y Clavada", "xpReward": 40,
+          "theory": {
+            "title": "Tácticas Ganadoras",
+            "explanation": "Las tácticas son combinaciones que te permiten ganar material o dar jaque mate. Son como trucos de magia en el ajedrez.",
+            "grammar": "Horquilla: una pieza ataca 2 piezas a la vez\nClavada: pieza atacada no puede moverse (protege al Rey)\nEnfilada: como la clavada pero al revés (pieza valiosa frente)\nRadiografía: atacar pieza detrás de otra\nSacrificio: perder material para ganar ventaja mayor\nCombinación: serie de movimientos con un plan",
+            "vocabulary": [
+              {"word":"Horquilla","translation":"Fork - atacar 2 piezas a la vez","emoji":"🍴","example":"El Caballo puede dar horquilla al Rey y la Torre."},
+              {"word":"Clavada","translation":"Pin - pieza no puede moverse","emoji":"📌","example":"El Alfil clava al Caballo que protege al Rey."},
+              {"word":"Enfilada","translation":"Skewer - pieza valiosa al frente","emoji":"🔗","example":"La Torre enfilada obliga a mover la Reina."},
+              {"word":"Sacrificio","translation":"Dar material para ventaja","emoji":"💔","example":"Sacrifica el Alfil para abrir la defensa del Rey."},
+              {"word":"Combinación","translation":"Serie de movimientos planeados","emoji":"🎯","example":"Una combinación de 3 movimientos da jaque mate."},
+              {"word":"Material","translation":"Valor total de tus piezas","emoji":"⚖️","example":"Ganar material significa capturar piezas valiosas."}
+            ],
+            "tip": "💡 El Caballo es el rey de las horquillas porque su movimiento en L es muy difícil de ver venir."
+          },
+          "exercises": [
+            {"type":"translate","question":"¿Qué es una 'horquilla' en ajedrez?","answer":"Atacar 2 piezas a la vez","options":["Atacar 2 piezas a la vez","Mover 2 piezas","Proteger al Rey","Un tipo de apertura"],"xp":5},
+            {"type":"translate","question":"¿Cuál pieza es mejor para dar horquillas?","answer":"El Caballo","options":["El Caballo","La Torre","El Alfil","El Peón"],"xp":4},
+            {"type":"matching","instruction":"Une la táctica con su descripción","pairs":[["Horquilla","Ataca 2 piezas"],["Clavada","Pieza no puede moverse"],["Sacrificio","Perder para ganar"],["Combinación","Serie de movimientos"]],"xp":7},
+            {"type":"fillblank","sentence":"En una ___, una pieza está clavada porque si se mueve el Rey queda en jaque","answer":"clavada","options":["clavada","horquilla","enfilada","combinación"],"xp":6},
+            {"type":"speed","question":"¿Qué es un 'sacrificio' en ajedrez?","answer":"Perder material para ganar ventaja","options":["Perder material para ganar ventaja","Ganar todas las piezas","Rendirse","Dar jaque mate"],"xp":5},
+            {"type":"memory","instruction":"Empareja táctica con su nombre en inglés","pairs":[["Horquilla","Fork"],["Clavada","Pin"],["Enfilada","Skewer"],["Combinación","Combination"]],"xp":7}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chess_unit_3", "title": "Jaque Mate", "titleEs": "Jaque Mate",
+      "description": "Aprende los mates más famosos", "icon": "🏆", "color": "#55efc4",
+      "lessons": [
+        {
+          "id": "chess_3_1", "title": "Jaque Mate en 1 Movimiento", "titleEs": "Jaque Mate en 1 Movimiento", "xpReward": 40,
+          "theory": {
+            "title": "El Arte del Jaque Mate",
+            "explanation": "El jaque mate es el objetivo final del ajedrez. Significa que el Rey rival no tiene ninguna casilla segura a donde escapar.",
+            "grammar": "Jaque Mate ocurre cuando:\n1. El Rey está en jaque (amenazado)\n2. No puede moverse a casilla segura\n3. Ninguna pieza puede bloquear el jaque\n4. Ninguna pieza puede capturar al atacante\n\nMate del Pastor: mate rápido en 4 movimientos\nMate Scholar's Mate en ajedrez\nTablas: empate (Rey ahogado, falta material, etc.)",
+            "vocabulary": [
+              {"word":"Jaque Mate","translation":"Checkmate - victoria total","emoji":"🏆","example":"¡Jaque Mate! El Rey no puede escapar. ¡Ganaste!"},
+              {"word":"Ahogado","translation":"Stalemate - empate forzado","emoji":"🤝","example":"Ahogado = el Rey no puede moverse pero no está en jaque."},
+              {"word":"Tablas","translation":"Draw - empate","emoji":"🏳️","example":"Las tablas son un empate, ninguno gana."},
+              {"word":"Mate del Pastor","translation":"Scholar's Mate (4 movimientos)","emoji":"🐑","example":"El Mate del Pastor busca jaque mate en solo 4 jugadas."},
+              {"word":"Rendirse","translation":"Resign - admitir la derrota","emoji":"🏳️","example":"Cuando la posición es perdida, es honorable rendirse."},
+              {"word":"Partida","translation":"Game - una sesión de ajedrez","emoji":"♟️","example":"Una partida puede durar 10 o 100 movimientos."}
+            ],
+            "tip": "💡 Si ves que tu Rey está acorralado, busca si hay tablas por ahogado. ¡Un empate es mejor que perder!"
+          },
+          "exercises": [
+            {"type":"translate","question":"¿Qué tres condiciones deben cumplirse para el jaque mate?","answer":"Rey en jaque, sin escape y sin bloqueo","options":["Rey en jaque, sin escape y sin bloqueo","Solo estar en jaque","Capturar al Rey","Mover la Reina al centro"],"xp":6},
+            {"type":"translate","question":"¿Qué es el 'ahogado' en ajedrez?","answer":"Rey sin movimientos pero sin estar en jaque (empate)","options":["Rey sin movimientos pero sin estar en jaque (empate)","Jaque mate","Una táctica","Un tipo de apertura"],"xp":5},
+            {"type":"matching","instruction":"Une el término con su significado","pairs":[["Jaque Mate","Victoria"],["Ahogado","Empate forzado"],["Tablas","Empate acordado"],["Rendirse","Aceptar derrota"]],"xp":7},
+            {"type":"fillblank","sentence":"El Mate del ___ es un jaque mate rápido en solo 4 movimientos","answer":"pastor","options":["pastor","caballo","peón","alfil"],"xp":5},
+            {"type":"speed","question":"¿Cuándo ocurre el jaque mate?","answer":"Cuando el Rey no puede escapar del jaque","options":["Cuando el Rey no puede escapar del jaque","Cuando capturas la Reina","Cuando tienes más piezas","Después de 50 movimientos"],"xp":5},
+            {"type":"translate","question":"¿Qué es preferible: rendirse o luchar por tablas?","answer":"Luchar por tablas (empate)","options":["Luchar por tablas (empate)","Rendirse siempre","Atacar al azar","No hacer nada"],"xp":4},
+            {"type":"chess_game","question":"♟️ ¡DESAFÍO FINAL! Intenta dar jaque mate a la IA. ¡Demuestra todo lo aprendido!","xp":30}
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -45,6 +45,12 @@ const EnglishModule = () => {
   const level = Math.floor(xp / 100) + 1;
   const currentExercise = currentLesson?.exercises?.[exerciseIndex] || null;
 
+  // Ejercicio alternativo cuando el usuario no tiene micrófono
+  const [swappedExercise, setSwappedExercise] = useState(null);
+
+  // El ejercicio que realmente se muestra (original o swapped)
+  const activeExercise = swappedExercise || currentExercise;
+
   useEffect(() => { setTimeout(() => setMounted(true), 100); }, []);
 
   /* ── Confetti ─────────────────────────────────────────────────────────── */
@@ -102,16 +108,41 @@ const EnglishModule = () => {
     setFeedback(null);
     setSpeechResult(null);
     setAnswered(false);
+    setSwappedExercise(null);
     setExerciseAnim('enter');
     setTimeout(() => setExerciseAnim(''), 500);
   };
 
+  /* ── Skip speak → convert to translate (sin micrófono) ─────────────── */
+  const skipSpeakExercise = () => {
+    if (!currentExercise || currentExercise.type !== 'speak') return;
+    sounds.click();
+    // Construir opciones: la respuesta correcta + 3 distractores del mismo ejercicio
+    const correct = currentExercise.text;
+    const distractors = [
+      currentExercise.textEs ? `${currentExercise.textEs} (ES)` : 'Good morning',
+      'How are you?',
+      'See you later',
+      'Thank you very much',
+      'Nice to meet you',
+    ].filter(d => d !== correct).slice(0, 3);
+    const options = [correct, ...distractors].sort(() => Math.random() - 0.5);
+    setSwappedExercise({
+      ...currentExercise,
+      type: 'translate',
+      question: `¿Cómo se dice en inglés: "${currentExercise.textEs || currentExercise.text}"?`,
+      options,
+      answer: correct,
+      xp: Math.max(1, (currentExercise.xp || 5) - 2), // menos XP por la versión fácil
+    });
+  };
+
   /* ── Check answer ──────────────────────────────────────────────────────── */
   const checkAnswer = useCallback((answer) => {
-    if (!currentExercise || answered) return;
+    if (!activeExercise || answered) return;
     const userAnswer = normalize(answer);
-    const correctAnswer = normalize(currentExercise.answer);
-    const altAnswer = normalize(currentExercise.text);
+    const correctAnswer = normalize(activeExercise.answer);
+    const altAnswer = normalize(activeExercise.text);
     const isCorrect = userAnswer === correctAnswer || userAnswer === altAnswer
       || (correctAnswer.includes(userAnswer) && userAnswer.length > 2)
       || (userAnswer.includes(correctAnswer) && correctAnswer.length > 2);
@@ -126,7 +157,7 @@ const EnglishModule = () => {
       sounds.correct();
       if (newCombo >= 3) setTimeout(() => sounds.combo(newCombo), 200);
 
-      const baseXp = currentExercise.xp || 5;
+      const baseXp = activeExercise.xp || 5;
       const comboBonus = newCombo >= 5 ? 3 : newCombo >= 3 ? 2 : 0;
       const earned = baseXp + comboBonus;
 
@@ -134,7 +165,9 @@ const EnglishModule = () => {
       setCorrectCount(prev => prev + 1);
       setFeedback({
         correct: true,
-        message: `¡Correcto! +${earned} XP${comboBonus > 0 ? ` (🔥 combo x${newCombo}!)` : ''}`
+        message: `¡Correcto! +${earned} XP${comboBonus > 0 ? ` (🔥 combo x${newCombo}!)` : ''}${
+          swappedExercise ? ' (versión escrita)' : ''
+        }`
       });
       setXpGained(earned);
       setShowXpPopup(true);
@@ -145,9 +178,9 @@ const EnglishModule = () => {
       setCombo(0);
       setTimeout(() => sounds.heartLost(), 300);
       setHearts(prev => Math.max(0, prev - 1));
-      setFeedback({ correct: false, message: `Respuesta correcta: "${currentExercise.answer}"` });
+      setFeedback({ correct: false, message: `Respuesta correcta: "${activeExercise.answer}"` });
     }
-  }, [currentExercise, answered, combo, spawnConfetti]);
+  }, [activeExercise, answered, combo, spawnConfetti, swappedExercise]);
 
   /* ── Next exercise ─────────────────────────────────────────────────────── */
   const nextExercise = () => {
@@ -177,7 +210,11 @@ const EnglishModule = () => {
   /* ── Speech Recognition ─────────────────────────────────────────────────── */
   const startRecording = useCallback(() => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SR) { alert('Speech Recognition no soportado.'); return; }
+    if (!SR) {
+      // No hay soporte: ofrecer cambio automático
+      skipSpeakExercise();
+      return;
+    }
 
     sounds.recordStart();
     const rec = new SR();
@@ -188,7 +225,7 @@ const EnglishModule = () => {
       setSpeechResult(transcript);
       setIsRecording(false);
 
-      const expected = normalize(currentExercise?.text);
+      const expected = normalize(activeExercise?.text);
       const got = normalize(transcript);
       let matched = false;
 
@@ -208,7 +245,7 @@ const EnglishModule = () => {
         sounds.correct();
         if (newCombo >= 3) setTimeout(() => sounds.combo(newCombo), 200);
 
-        const baseXp = currentExercise.xp || 5;
+        const baseXp = activeExercise.xp || 5;
         const comboBonus = newCombo >= 5 ? 3 : newCombo >= 3 ? 2 : 0;
         const earned = baseXp + comboBonus;
 
@@ -230,18 +267,27 @@ const EnglishModule = () => {
         setTimeout(() => sounds.heartLost(), 300);
         setAnswered(true);
         setHearts(prev => Math.max(0, prev - 1));
-        setFeedback({ correct: false, message: `Dijiste: "${transcript}". Se esperaba: "${currentExercise.text}"` });
+        setFeedback({ correct: false, message: `Dijiste: "${transcript}". Se esperaba: "${activeExercise.text}"` });
         setSpeechResult(`"${transcript}" ✗`);
       }
     };
 
-    rec.onerror = () => { setIsRecording(false); sounds.recordStop(); setSpeechResult('No se pudo capturar.'); };
+    rec.onerror = (err) => {
+      setIsRecording(false);
+      sounds.recordStop();
+      // Si el error es por falta de permiso o hardware, sugerimos cambio
+      if (err.error === 'not-allowed' || err.error === 'audio-capture' || err.error === 'no-speech') {
+        setSpeechResult('⚠️ No se detectó micrófono. Usa el botón de abajo para cambiar el ejercicio.');
+      } else {
+        setSpeechResult('No se pudo capturar el audio.');
+      }
+    };
     rec.onend = () => setIsRecording(false);
     recognitionRef.current = rec;
     rec.start();
     setIsRecording(true);
     setSpeechResult(null);
-  }, [currentExercise, combo, spawnConfetti]);
+  }, [activeExercise, combo, spawnConfetti, skipSpeakExercise]);
 
   /* ── Option click ──────────────────────────────────────────────────────── */
   const handleOptionClick = (opt) => {
@@ -285,8 +331,8 @@ const EnglishModule = () => {
 
   /* ── Render Exercise ───────────────────────────────────────────────────── */
   const renderExercise = () => {
-    if (!currentExercise) return null;
-    const { type } = currentExercise;
+    if (!activeExercise) return null;
+    const { type } = activeExercise;
 
     return (
       <div className={`exercise-card ${exerciseAnim}`} key={`${currentLesson.id}-${exerciseIndex}`}>
@@ -300,7 +346,7 @@ const EnglishModule = () => {
         )}
 
         <span className={`exercise-type-label ${type}`}>
-          {type === 'translate' && '✍️ Traducción'}
+          {type === 'translate' && (swappedExercise ? '✍️ Ejercicio escrito' : '✍️ Traducción')}
           {type === 'listen' && '🔊 Escucha'}
           {type === 'speak' && '🎤 Pronunciación'}
           {type === 'fillblank' && '📝 Completar'}
@@ -308,12 +354,12 @@ const EnglishModule = () => {
 
         {type === 'translate' && (
           <>
-            <p className="exercise-question">{currentExercise.question}</p>
+            <p className="exercise-question">{activeExercise.question}</p>
             <p className="exercise-instruction">Selecciona la respuesta correcta</p>
             <div className="options-grid">
-              {currentExercise.options.map((opt, i) => (
+              {activeExercise.options.map((opt, i) => (
                 <button key={i}
-                  className={`option-btn ${answered ? (opt === currentExercise.answer ? 'correct' : selectedOption === opt ? 'wrong' : 'dim') : selectedOption === opt ? 'selected' : ''}`}
+                  className={`option-btn ${answered ? (opt === activeExercise.answer ? 'correct' : selectedOption === opt ? 'wrong' : 'dim') : selectedOption === opt ? 'selected' : ''}`}
                   onClick={() => handleOptionClick(opt)}
                   onMouseEnter={() => !answered && sounds.hover()}
                   style={{ animationDelay: `${i * 0.06}s` }}
@@ -325,8 +371,8 @@ const EnglishModule = () => {
 
         {type === 'listen' && (
           <>
-            <p className="exercise-instruction">{currentExercise.instruction}</p>
-            <button className="btn-listen" onClick={() => speak(currentExercise.text)}>
+            <p className="exercise-instruction">{activeExercise.instruction}</p>
+            <button className="btn-listen" onClick={() => speak(activeExercise.text)}>
               <span className="btn-listen-icon">🔊</span>
               <span className="btn-listen-ripple" />
               <span className="btn-listen-ripple r2" />
@@ -348,13 +394,13 @@ const EnglishModule = () => {
 
         {type === 'speak' && (
           <>
-            <p className="exercise-instruction">{currentExercise.instruction}</p>
+            <p className="exercise-instruction">{activeExercise.instruction || 'Repite la siguiente frase en voz alta'}</p>
             <div className="speech-text-card">
-              <p className="speech-text-en">{currentExercise.text}</p>
-              {currentExercise.textEs && <p className="speech-text-es">{currentExercise.textEs}</p>}
+              <p className="speech-text-en">{activeExercise.text}</p>
+              {activeExercise.textEs && <p className="speech-text-es">{activeExercise.textEs}</p>}
             </div>
             <div className="speak-controls">
-              <button className="btn-listen-sm" onClick={() => speak(currentExercise.text)} onMouseEnter={() => sounds.hover()}>🔊</button>
+              <button className="btn-listen-sm" onClick={() => speak(activeExercise.text)} onMouseEnter={() => sounds.hover()}>🔊</button>
               <button className={`btn-mic ${isRecording ? 'recording' : ''}`}
                 onClick={() => { if (isRecording) { recognitionRef.current?.stop(); sounds.recordStop(); } else startRecording(); }}
                 disabled={answered}
@@ -368,17 +414,29 @@ const EnglishModule = () => {
             {speechResult && (
               <p className={`speech-result-text ${feedback?.correct ? 'match' : 'no-match'}`}>{speechResult}</p>
             )}
+            {/* ── Botón "Sin micrófono" al estilo Duolingo ── */}
+            {!answered && (
+              <button
+                className="btn-no-mic"
+                onClick={skipSpeakExercise}
+                onMouseEnter={() => sounds.hover()}
+                title="Cambiar a ejercicio escrito"
+              >
+                <span className="no-mic-icon">🎤❌</span>
+                No tengo micrófono · Cambiar ejercicio
+              </button>
+            )}
           </>
         )}
 
         {type === 'fillblank' && (
           <>
-            <p className="exercise-question">{currentExercise.sentence.replace('___', ' ______ ')}</p>
+            <p className="exercise-question">{activeExercise.sentence.replace('___', ' ______ ')}</p>
             <p className="exercise-instruction">Elige la palabra correcta</p>
             <div className="options-grid">
-              {currentExercise.options.map((opt, i) => (
+              {activeExercise.options.map((opt, i) => (
                 <button key={i}
-                  className={`option-btn ${answered ? (opt === currentExercise.answer ? 'correct' : selectedOption === opt ? 'wrong' : 'dim') : selectedOption === opt ? 'selected' : ''}`}
+                  className={`option-btn ${answered ? (opt === activeExercise.answer ? 'correct' : selectedOption === opt ? 'wrong' : 'dim') : selectedOption === opt ? 'selected' : ''}`}
                   onClick={() => handleOptionClick(opt)}
                   onMouseEnter={() => !answered && sounds.hover()}
                   style={{ animationDelay: `${i * 0.06}s` }}

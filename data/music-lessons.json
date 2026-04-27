@@ -1,0 +1,209 @@
+{
+  "units": [
+    {
+      "id": "music_unit_1",
+      "title": "Las Notas Musicales",
+      "titleEs": "Las Notas Musicales",
+      "description": "Aprende las 7 notas básicas y cómo leerlas",
+      "icon": "🎵",
+      "color": "#ff6b9d",
+      "lessons": [
+        {
+          "id": "music_1_1",
+          "title": "Do Re Mi — Las Primeras Notas",
+          "titleEs": "Do Re Mi — Las Primeras Notas",
+          "xpReward": 25,
+          "theory": {
+            "title": "Las 7 Notas Musicales",
+            "explanation": "Toda la música del mundo está hecha con solo 7 notas. Aprendiendo estas notas podrás leer y tocar cualquier canción.",
+            "grammar": "DO → C (primera nota, grave)\nRE → D (segunda nota)\nMI → E (tercera nota)\nFA → F (cuarta nota)\nSOL → G (quinta nota)\nLA → A (sexta nota)\nSI → B (séptima nota)\n\nEscala ascendente: DO RE MI FA SOL LA SI DO",
+            "vocabulary": [
+              { "word": "DO", "translation": "Primera nota (C)", "emoji": "1️⃣", "example": "DO es la nota más grave de la escala básica." },
+              { "word": "RE", "translation": "Segunda nota (D)", "emoji": "2️⃣", "example": "RE viene justo después de DO." },
+              { "word": "MI", "translation": "Tercera nota (E)", "emoji": "3️⃣", "example": "MI es la tercera nota de la escala." },
+              { "word": "FA", "translation": "Cuarta nota (F)", "emoji": "4️⃣", "example": "FA está en el centro de la escala." },
+              { "word": "SOL", "translation": "Quinta nota (G)", "emoji": "5️⃣", "example": "SOL es la nota más usada en melodías." },
+              { "word": "LA", "translation": "Sexta nota (A)", "emoji": "6️⃣", "example": "LA es la nota de referencia universal (440 Hz)." }
+            ],
+            "tip": "💡 Truco: Recuerda 'Do Re Mi' de la película La Novicia Rebelde. ¡Es la misma escala!"
+          },
+          "exercises": [
+            { "type": "translate", "question": "¿Cuál es la primera nota de la escala musical?", "answer": "DO", "options": ["DO","RE","MI","FA"], "xp": 4 },
+            { "type": "piano", "question": "🎹 Toca la nota DO en el piano", "answer": "DO", "notes": ["DO","RE","MI","FA","SOL","LA","SI"], "xp": 7 },
+            { "type": "translate", "question": "¿Qué nota va después de MI?", "answer": "FA", "options": ["FA","SOL","RE","LA"], "xp": 4 },
+            { "type": "piano", "question": "🎹 Toca la nota SOL en el piano", "answer": "SOL", "notes": ["DO","RE","MI","FA","SOL","LA","SI"], "xp": 7 },
+            { "type": "matching", "instruction": "Une cada nota con su posición", "pairs": [["DO","1ª nota"],["MI","3ª nota"],["SOL","5ª nota"],["LA","6ª nota"]], "xp": 6 },
+            { "type": "note_seq", "question": "🎼 Ordena estas notas de grave a agudo", "sequence": ["DO","MI","SOL"], "answer": "DO MI SOL", "xp": 8 },
+            { "type": "fillblank", "sentence": "La escala es: DO RE ___ FA SOL LA SI", "answer": "MI", "options": ["MI","FA","RE","SOL"], "xp": 4 },
+            { "type": "piano", "question": "🎹 Toca la nota LA en el piano", "answer": "LA", "notes": ["DO","RE","MI","FA","SOL","LA","SI"], "xp": 7 },
+            { "type": "memory", "instruction": "Empareja las notas con sus equivalentes en inglés", "pairs": [["DO","C"],["RE","D"],["MI","E"],["FA","F"]], "xp": 7 },
+            { "type": "piano_play", "question": "🎹 ¡Toca DO, MI y SOL en el piano!", "sequence": ["C4","E4","G4"], "xp": 15 }
+          ]
+        },
+        {
+          "id": "music_1_2",
+          "title": "El Pentagrama y las Claves",
+          "titleEs": "El Pentagrama y las Claves",
+          "xpReward": 30,
+          "theory": {
+            "title": "Leyendo Música: El Pentagrama",
+            "explanation": "El pentagrama son las 5 líneas donde se escriben las notas musicales. Como un renglón especial para la música.",
+            "grammar": "Pentagrama = 5 líneas horizontales\nClave de Sol = símbolo al inicio (música moderna)\nClave de Fa = para instrumentos graves\nNota en línea = la nota está encima de una línea\nNota en espacio = la nota está entre dos líneas\nCorchea = nota rápida (1/2 tiempo)\nNegra = nota normal (1 tiempo)\nBlanca = nota larga (2 tiempos)",
+            "vocabulary": [
+              { "word": "Pentagrama", "translation": "Las 5 líneas musicales", "emoji": "🎼", "example": "El pentagrama tiene 5 líneas y 4 espacios." },
+              { "word": "Clave de Sol", "translation": "Símbolo de melodía", "emoji": "🎵", "example": "La clave de sol indica dónde está la nota SOL." },
+              { "word": "Negra", "translation": "Nota de 1 tiempo", "emoji": "♩", "example": "Cuatro negras = un compás de 4/4." },
+              { "word": "Corchea", "translation": "Nota de medio tiempo", "emoji": "♪", "example": "Dos corcheas tienen el valor de una negra." },
+              { "word": "Blanca", "translation": "Nota de 2 tiempos", "emoji": "𝅗𝅥", "example": "Una blanca dura el doble que una negra." },
+              { "word": "Compás", "translation": "División del tiempo", "emoji": "📊", "example": "El compás 4/4 tiene 4 tiempos por medida." }
+            ],
+            "tip": "💡 Piensa en el pentagrama como una escalera: las notas más arriba suenan más agudas."
+          },
+          "exercises": [
+            { "type": "translate", "question": "¿Cuántas líneas tiene el pentagrama?", "answer": "5", "options": ["5","4","6","7"], "xp": 3 },
+            { "type": "translate", "question": "¿Qué figura dura 2 tiempos?", "answer": "Blanca", "options": ["Blanca","Negra","Corchea","Redonda"], "xp": 5 },
+            { "type": "matching", "instruction": "Une la figura con su duración", "pairs": [["Negra","1 tiempo"],["Blanca","2 tiempos"],["Corchea","½ tiempo"],["Compás","Medida musical"]], "xp": 7 },
+            { "type": "fillblank", "sentence": "El ___ tiene 5 líneas horizontales para escribir música", "answer": "pentagrama", "options": ["pentagrama","compás","ritmo","tempo"], "xp": 5 },
+            { "type": "speed", "question": "¿Qué nota es la más rápida de estas?", "answer": "Corchea", "options": ["Corchea","Negra","Blanca","Redonda"], "xp": 5 },
+            { "type": "translate", "question": "¿Qué es la Clave de Sol?", "answer": "Símbolo al inicio del pentagrama", "options": ["Símbolo al inicio del pentagrama","Una nota musical","Un instrumento","Un ritmo"], "xp": 5 }
+          ]
+        },
+        {
+          "id": "music_1_3",
+          "title": "Ritmo y Compás 4/4",
+          "titleEs": "Ritmo y Compás 4/4",
+          "xpReward": 30,
+          "theory": {
+            "title": "El Ritmo: El Corazón de la Música",
+            "explanation": "El ritmo es lo que hace que la música tenga movimiento. El compás 4/4 es el más común y lo usamos en la mayoría de canciones populares.",
+            "grammar": "Tiempo = pulso básico (como los latidos del corazón)\nCompás 4/4 = 4 tiempos por medida\n1-2-3-4 → negra-negra-negra-negra\nTiempo fuerte = primer tiempo (más énfasis)\nTiempo débil = tiempos 2, 3 y 4\nTempo = velocidad de la música (BPM)\nAdagio = lento | Andante = moderado | Allegro = rápido",
+            "vocabulary": [
+              { "word": "Ritmo", "translation": "Patrón de tiempos", "emoji": "🥁", "example": "El ritmo es el esqueleto de toda canción." },
+              { "word": "Tempo", "translation": "Velocidad musical (BPM)", "emoji": "⏱️", "example": "Un tempo de 120 BPM es moderado." },
+              { "word": "Adagio", "translation": "Muy lento y suave", "emoji": "🐢", "example": "Adagio significa lento y tranquilo." },
+              { "word": "Allegro", "translation": "Rápido y alegre", "emoji": "🐇", "example": "Allegro significa rápido y con energía." },
+              { "word": "BPM", "translation": "Beats por minuto", "emoji": "💓", "example": "120 BPM es el tempo de muchas canciones pop." },
+              { "word": "Metrónomo", "translation": "Aparato que marca el tiempo", "emoji": "⚙️", "example": "El metrónomo ayuda a mantener el ritmo constante." }
+            ],
+            "tip": "💡 Toca el escritorio con tu mano: 1-2-3-4, 1-2-3-4. ¡Eso es el compás 4/4!"
+          },
+          "exercises": [
+            { "type": "translate", "question": "¿Cuántos tiempos tiene el compás 4/4?", "answer": "4", "options": ["4","2","3","6"], "xp": 3 },
+            { "type": "translate", "question": "¿Qué significa 'Allegro' en música?", "answer": "Rápido y alegre", "options": ["Rápido y alegre","Muy lento","Moderado","Suave"], "xp": 5 },
+            { "type": "matching", "instruction": "Une el término con su significado", "pairs": [["Adagio","Lento"],["Allegro","Rápido"],["Tempo","Velocidad"],["BPM","Beats por minuto"]], "xp": 6 },
+            { "type": "fillblank", "sentence": "El ___ marca la velocidad de la música en beats por minuto", "answer": "tempo", "options": ["tempo","ritmo","compás","tono"], "xp": 5 },
+            { "type": "speed", "question": "¿Qué aparato ayuda a mantener el ritmo?", "answer": "Metrónomo", "options": ["Metrónomo","Amplificador","Ecualizador","Altavoz"], "xp": 5 },
+            { "type": "translate", "question": "En el compás 4/4 el tiempo más fuerte es:", "answer": "El primer tiempo", "options": ["El primer tiempo","El segundo","El tercero","El cuarto"], "xp": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "music_unit_2",
+      "title": "Instrumentos Musicales",
+      "titleEs": "Instrumentos Musicales",
+      "description": "Conoce los instrumentos y sus familias",
+      "icon": "🎸",
+      "color": "#e17055",
+      "lessons": [
+        {
+          "id": "music_2_1",
+          "title": "Familia de Cuerdas",
+          "titleEs": "Familia de Cuerdas",
+          "xpReward": 25,
+          "theory": {
+            "title": "Instrumentos de Cuerda",
+            "explanation": "Los instrumentos de cuerda producen sonido cuando sus cuerdas vibran. Son algunos de los más versátiles y expresivos del mundo.",
+            "grammar": "Guitarra → 6 cuerdas, pulsadas o rasgadas\nViolín → 4 cuerdas, se toca con arco\nPiano → cuerdas internas golpeadas por martillos\nBajo → 4 cuerdas, notas graves\nArpa → 47 cuerdas, se puntea con los dedos\nCuerda pulsada → dedos tocan directamente\nCuerda frotada → se usa arco para hacer vibrar",
+            "vocabulary": [
+              { "word": "Guitarra", "translation": "Guitar (6 cuerdas)", "emoji": "🎸", "example": "La guitarra es el instrumento más popular del mundo." },
+              { "word": "Violín", "translation": "Violin (cuerda frotada)", "emoji": "🎻", "example": "El violín tiene un sonido muy expresivo." },
+              { "word": "Piano", "translation": "Piano (cuerdas+teclas)", "emoji": "🎹", "example": "El piano tiene 88 teclas." },
+              { "word": "Bajo", "translation": "Bass guitar (grave)", "emoji": "🎸", "example": "El bajo da el ritmo y las notas graves." },
+              { "word": "Arpa", "translation": "Harp (47 cuerdas)", "emoji": "🪕", "example": "El arpa es uno de los instrumentos más antiguos." },
+              { "word": "Ukelele", "translation": "Ukulele (4 cuerdas)", "emoji": "🪗", "example": "El ukelele es pequeño y tiene sonido tropical." }
+            ],
+            "tip": "💡 La guitarra tiene 6 cuerdas: Mi-La-Re-Sol-Si-Mi (de grave a agudo)."
+          },
+          "exercises": [
+            { "type": "matching", "instruction": "Une el instrumento con su característica", "pairs": [["Guitarra","6 cuerdas"],["Violín","Se toca con arco"],["Piano","88 teclas"],["Bajo","Notas graves"]], "xp": 6 },
+            { "type": "translate", "question": "¿Cuántas cuerdas tiene una guitarra estándar?", "answer": "6", "options": ["6","4","5","8"], "xp": 4 },
+            { "type": "translate", "question": "¿Qué instrumento de cuerda se toca con arco?", "answer": "Violín", "options": ["Violín","Guitarra","Piano","Bajo"], "xp": 4 },
+            { "type": "fillblank", "sentence": "El ___ tiene 88 teclas y cuerdas internas", "answer": "piano", "options": ["piano","arpa","violín","órgano"], "xp": 5 },
+            { "type": "speed", "question": "¿Cuántas cuerdas tiene un arpa?", "answer": "47", "options": ["47","12","6","88"], "xp": 5 },
+            { "type": "memory", "instruction": "Empareja instrumento con familia", "pairs": [["Guitarra","Cuerda pulsada"],["Violín","Cuerda frotada"],["Piano","Cuerdas+martillos"],["Bajo","Cuerda grave"]], "xp": 7 }
+          ]
+        },
+        {
+          "id": "music_2_2",
+          "title": "Tu Primera Canción: Cumpleaños Feliz",
+          "titleEs": "Tu Primera Canción: Cumpleaños Feliz",
+          "xpReward": 40,
+          "theory": {
+            "title": "Tocar Cumpleaños Feliz en Piano",
+            "explanation": "¡Vamos a tocar tu primera canción! Cumpleaños Feliz es perfecta para comenzar porque usa pocas notas y es muy fácil de recordar.",
+            "grammar": "Notas de Cumpleaños Feliz:\nDO DO RE DO FA MI\nDO DO RE DO SOL FA\nDO DO DO(alto) LA FA MI RE\nSIb SIb LA FA SOL FA\n\nEn piano (teclas blancas):\nC C D C F E\nC C D C G F\nC C C(alta) A F E D\nBb Bb A F G F",
+            "vocabulary": [
+              { "word": "Melodía", "translation": "Secuencia de notas principales", "emoji": "🎶", "example": "La melodía de Cumpleaños Feliz es mundialmente conocida." },
+              { "word": "DO-RE-MI", "translation": "C-D-E en piano", "emoji": "🎹", "example": "DO-RE-MI son las teclas blancas C-D-E." },
+              { "word": "FA-SOL", "translation": "F-G en piano", "emoji": "🎵", "example": "FA y SOL son las teclas F y G." },
+              { "word": "Posición", "translation": "Dónde colocar los dedos", "emoji": "🖐️", "example": "En posición de DO, el pulgar va en DO." },
+              { "word": "Pulgar", "translation": "Dedo 1 (gordo)", "emoji": "👍", "example": "El pulgar (dedo 1) toca DO." },
+              { "word": "Práctica", "translation": "Repetición para aprender", "emoji": "🔁", "example": "La práctica diaria hace al maestro." }
+            ],
+            "tip": "💡 Comienza muy despacio. La velocidad viene sola con la práctica. ¡Un error no es un fracaso!"
+          },
+          "exercises": [
+            { "type": "translate", "question": "¿Cuáles son las primeras 2 notas de Cumpleaños Feliz?", "answer": "DO DO", "options": ["DO DO","RE MI","SOL LA","FA SOL"], "xp": 5 },
+            { "type": "wordorder", "instruction": "Ordena las primeras notas de Cumpleaños Feliz", "words": ["DO","DO","RE","DO","FA","MI"], "answer": "DO DO RE DO FA MI", "answerEs": "Primera frase de Cumpleaños Feliz", "xp": 8 },
+            { "type": "translate", "question": "¿Qué nota es 'C' en español?", "answer": "DO", "options": ["DO","RE","MI","FA"], "xp": 4 },
+            { "type": "matching", "instruction": "Une la nota española con su equivalente en inglés", "pairs": [["DO","C"],["RE","D"],["MI","E"],["SOL","G"]], "xp": 6 },
+            { "type": "fillblank", "sentence": "En piano, el dedo 1 (pulgar) toca la nota ___", "answer": "DO", "options": ["DO","RE","MI","SOL"], "xp": 5 },
+            { "type": "speed", "question": "Cumpleaños Feliz empieza con: DO DO ___", "answer": "RE", "options": ["RE","MI","FA","SOL"], "xp": 5 },
+            { "type": "translate", "question": "¿Qué significa 'práctica' en música?", "answer": "Repetición para aprender", "options": ["Repetición para aprender","Una canción","Un instrumento","Un ritmo"], "xp": 4 },
+            { "type": "piano_play", "question": "🎹 Toca las primeras 6 notas de Cumpleaños Feliz: DO DO RE DO FA MI", "sequence": ["C4","C4","D4","C4","F4","E4"], "xp": 20 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "music_unit_3",
+      "title": "Canciones Populares",
+      "titleEs": "Canciones Populares",
+      "description": "Aprende a tocar canciones que todos conocen",
+      "icon": "🎤",
+      "color": "#6c5ce7",
+      "lessons": [
+        {
+          "id": "music_3_1",
+          "title": "Estrellita ¿Dónde Estás?",
+          "titleEs": "Estrellita ¿Dónde Estás?",
+          "xpReward": 35,
+          "theory": {
+            "title": "Tocar Estrellita en Piano/Guitarra",
+            "explanation": "Estrellita (Twinkle Twinkle Little Star) es una de las melodías más famosas del mundo. Con solo 5 notas diferentes puedes tocarla completa.",
+            "grammar": "Notas de Estrellita:\nDO DO SOL SOL LA LA SOL\nFA FA MI MI RE RE DO\nSOL SOL FA FA MI MI RE\nSOL SOL FA FA MI MI RE\nDO DO SOL SOL LA LA SOL\nFA FA MI MI RE RE DO\n\nDedos sugeridos (piano):\nDO=1, RE=2, MI=3, FA=4, SOL=5",
+            "vocabulary": [
+              { "word": "Twinkle", "translation": "Estrellita (brillar)", "emoji": "⭐", "example": "Twinkle Twinkle Little Star = Estrellita ¿Dónde Estás?" },
+              { "word": "Octava", "translation": "8 notas (DO a DO)", "emoji": "🎼", "example": "Una octava va de DO a DO, una más alta." },
+              { "word": "Acorde", "translation": "3+ notas juntas", "emoji": "🎸", "example": "DO-MI-SOL juntos forman el acorde de DO mayor." },
+              { "word": "Mayor", "translation": "Sonido alegre/positivo", "emoji": "😊", "example": "Las escalas mayores suenan alegres." },
+              { "word": "Menor", "translation": "Sonido melancólico", "emoji": "😢", "example": "Las escalas menores suenan tristes." },
+              { "word": "Fraseo", "translation": "Cómo expresar la melodía", "emoji": "💬", "example": "El fraseo da personalidad a la música." }
+            ],
+            "tip": "💡 ¡Estrellita usa las mismas 5 notas que Cumpleaños Feliz! Una vez que aprendes una, la otra es más fácil."
+          },
+          "exercises": [
+            { "type": "translate", "question": "¿Cuáles son las primeras 4 notas de Estrellita?", "answer": "DO DO SOL SOL", "options": ["DO DO SOL SOL","RE MI FA SOL","DO RE MI FA","SOL LA SI DO"], "xp": 6 },
+            { "type": "wordorder", "instruction": "Ordena las notas del inicio de Estrellita", "words": ["DO","DO","SOL","SOL","LA","LA","SOL"], "answer": "DO DO SOL SOL LA LA SOL", "answerEs": "Estrellita - primera frase", "xp": 8 },
+            { "type": "translate", "question": "¿Cómo suena una escala mayor?", "answer": "Alegre y positiva", "options": ["Alegre y positiva","Triste y oscura","Tensa","Suave"], "xp": 4 },
+            { "type": "matching", "instruction": "Une el concepto musical con su descripción", "pairs": [["Mayor","Suena alegre"],["Menor","Suena triste"],["Octava","8 notas"],["Acorde","Notas juntas"]], "xp": 6 },
+            { "type": "fillblank", "sentence": "Tres notas tocadas al mismo tiempo forman un ___", "answer": "acorde", "options": ["acorde","ritmo","compás","tempo"], "xp": 5 },
+            { "type": "speed", "question": "Estrellita en inglés se llama:", "answer": "Twinkle Twinkle Little Star", "options": ["Twinkle Twinkle Little Star","Happy Birthday","Jingle Bells","Mary had a Lamb"], "xp": 4 },
+            { "type": "piano_play", "question": "🎹 Toca el inicio de Estrellita: DO DO SOL SOL LA LA SOL", "sequence": ["C4","C4","G4","G4","A4","A4","G4"], "xp": 20 }
+          ]
+        }
+      ]
+    }
+  ]
+}
