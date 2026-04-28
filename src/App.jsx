@@ -8,6 +8,7 @@ import MusicModule from './pages/MusicModule';
 import MathModule from './pages/MathModule';
 import ChessModule from './pages/ChessModule';
 import AdminPanel from './pages/AdminPanel';
+import SignLanguageModule from './pages/SignLanguageModule';
 
 const ProtectedRoute = ({ children, requireAdmin = false }) => {
   const { isAuthenticated, isAdmin } = useAuth();
@@ -31,6 +32,7 @@ const AppRoutes = () => (
     <Route path="/math"    element={<ProtectedRoute><MathModule /></ProtectedRoute>} />
     <Route path="/chess"   element={<ProtectedRoute><ChessModule /></ProtectedRoute>} />
     <Route path="/admin"   element={<ProtectedRoute requireAdmin><AdminPanel /></ProtectedRoute>} />
+    <Route path="/signlanguage" element={<ProtectedRoute><SignLanguageModule /></ProtectedRoute>} />
     <Route path="*" element={<Navigate to="/" replace />} />
   </Routes>
 );

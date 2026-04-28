@@ -70,6 +70,7 @@ const COURSE_BANNERS = {
   music:   { icons:['🎵','🎹','🎸','🎼','🥁'], cls:'banner-music'   },
   math:    { icons:['🔢','➕','✖️','📐','💡'], cls:'banner-math'     },
   chess:   { icons:['♟️','♛','♜','♞','🏆'],   cls:'banner-chess'   },
+  signlanguage: { icons:['✋','🤖','🅰️','📚','🤟'], cls:'banner-sign' },
 };
 const COURSES = [
   {
@@ -114,6 +115,17 @@ const COURSES = [
     tagColors: ['orange','blue','purple','green'],
     units: 3, difficulty: 'Principiante', duration: '35h',
     desc: 'Aprende ajedrez desde cero hasta hacer jaque mate.',
+    active: true,
+  },
+  {
+    id: 'signlanguage', route: '/signlanguage',
+    name: 'Lenguaje de Señas', subtitle: 'Detector IA · KNN en Tiempo Real',
+    emoji: '✋', color: '#00f2ff', colorRgb: '0,242,255',
+    bg: 'linear-gradient(135deg,#00111a 0%,#001e2b 50%,#000d14 100%)',
+    tags: ['🤖 Detector IA','🅰️ Vocales','📚 Abecedario','✨ Tiempo Real'],
+    tagColors: ['blue','purple','green','orange'],
+    units: 3, difficulty: 'Principiante', duration: '20h',
+    desc: 'Aprende el lenguaje de señas con reconocimiento de manos en tiempo real.',
     active: true,
   },
 ];
@@ -264,7 +276,7 @@ const Dashboard = () => {
     const saludo = h<12?'Buenos días':h<18?'Buenas tardes':'Buenas noches';
     const nombre = user?.name?.split(' ')[0]||'estudiante';
     const t=setTimeout(()=>{
-      speak(`${saludo}, ${nombre}. ¡Bienvenido a VentoEdu! Tienes 4 cursos disponibles.`);
+      speak(`${saludo}, ${nombre}. ¡Bienvenido a VentoEdu! Tienes ${COURSES.length} cursos disponibles.`);
       sessionStorage.setItem('vento_greeted','1');
     },800);
     return ()=>clearTimeout(t);
@@ -279,14 +291,19 @@ const Dashboard = () => {
   });
 
   // Progress for each course
-  const engP = user?.progress?.english    || {xp:0,streak:0,completedLessons:[]};
-  const musP = user?.progress?.music      || {xp:0,streak:0,completedLessons:[]};
-  const matP = user?.progress?.math       || {xp:0,streak:0,completedLessons:[]};
-  const cheP = user?.progress?.chess      || {xp:0,streak:0,completedLessons:[]};
+  const engP = user?.progress?.english        || {xp:0,streak:0,completedLessons:[]};
+  const musP = user?.progress?.music          || {xp:0,streak:0,completedLessons:[]};
+  const matP = user?.progress?.math           || {xp:0,streak:0,completedLessons:[]};
+  const cheP = user?.progress?.chess          || {xp:0,streak:0,completedLessons:[]};
+  const slP  = user?.progress?.signlanguage   || {xp:0,streak:0,completedVocales:[],completedAbc:[]};
 
-  const totalXp = (engP.xp||0)+(musP.xp||0)+(matP.xp||0)+(cheP.xp||0);
-  const totalCompleted = (engP.completedLessons?.length||0)+(musP.completedLessons?.length||0)+(matP.completedLessons?.length||0)+(cheP.completedLessons?.length||0);
-  const bestStreak = Math.max(engP.streak||0, musP.streak||0, matP.streak||0, cheP.streak||0);
+  // XP total suma TODOS los módulos incluyendo señas
+  const totalXp = (engP.xp||0)+(musP.xp||0)+(matP.xp||0)+(cheP.xp||0)+(slP.xp||0);
+  // Lecciones completadas: señas cuenta vocales + abecedario como unidades separadas
+  const slLessonsCompleted = ((slP.completedVocales?.length||0) > 0 ? 1 : 0)
+                           + ((slP.completedAbc?.length||0) > 0 ? 1 : 0);
+  const totalCompleted = (engP.completedLessons?.length||0)+(musP.completedLessons?.length||0)+(matP.completedLessons?.length||0)+(cheP.completedLessons?.length||0)+slLessonsCompleted;
+  const bestStreak = Math.max(engP.streak||0, musP.streak||0, matP.streak||0, cheP.streak||0, slP.streak||0);
   const level = Math.floor(totalXp/200)+1;
   const xpInLevel = totalXp%200;
 
@@ -295,6 +312,8 @@ const Dashboard = () => {
     music:   { completed: musP.completedLessons?.length||0, total:6,  pct: Math.round(((musP.completedLessons?.length||0)/6)*100) },
     math:    { completed: matP.completedLessons?.length||0, total:6,  pct: Math.round(((matP.completedLessons?.length||0)/6)*100) },
     chess:   { completed: cheP.completedLessons?.length||0, total:6,  pct: Math.round(((cheP.completedLessons?.length||0)/6)*100) },
+    // Señas: 2 lecciones (vocales + abc), el progreso es letras completadas / total
+    signlanguage: { completed: slLessonsCompleted, total:2, pct: Math.round((slLessonsCompleted/2)*100) },
   };
 
   const unlockedAch = ACHIEVEMENTS.filter(a=>{

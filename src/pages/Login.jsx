@@ -31,12 +31,12 @@ const Login = () => {
   /* ── Iniciar sesión en AuthContext y navegar al dashboard ── */
   const redirectToApp = (user) => {
     authLogin({
-      id:       user.id     || null,       // Firestore doc ID — necesario para guardar progreso
+      id:       user.id     || user.userId || null,  // id viene del backend vía publicUser()
       name:     user.name   || user.email,
       email:    user.email  || '',
       role:     user.role   || 'student',
       method:   user.method || 'email',
-      progress: user.progress || {},       // Progreso guardado en Firebase
+      progress: user.progress || {},
     });
     navigate('/dashboard');
   };
