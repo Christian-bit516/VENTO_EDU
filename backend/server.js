@@ -45,7 +45,16 @@ try {
     }
 } catch (error) {
     console.error("🚨 ERROR CRÍTICO AL LEER CREDENCIALES DE FIREBASE:", error.message);
+    process.exit(1); // Crash si no hay credenciales
 }
+
+if (!serviceAccount || !serviceAccount.project_id) {
+    console.error("🚨 ERROR: serviceAccount es inválido o está vacío.");
+    process.exit(1);
+}
+
+console.log("✅ Firebase Credentials cargadas para el proyecto:", serviceAccount.project_id);
+
 
 admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
 const db = admin.firestore();
