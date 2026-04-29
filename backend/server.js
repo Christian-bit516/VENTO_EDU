@@ -13,7 +13,11 @@ const SECRET = process.env.JWT_SECRET || 'ventoedu_dev_secret';
 /* ══════════════════════════════════════════════════
    MIDDLEWARE
 ══════════════════════════════════════════════════ */
-app.use(cors({ origin: '*' }));
+app.use(cors({
+  origin: '*', // Por ahora usa '*' para probar si conecta, luego pon tu URL de Netlify
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json({ limit: '5mb' })); // face descriptors son arrays grandes
 
 /* ══════════════════════════════════════════════════
