@@ -421,26 +421,24 @@ const Login = () => {
                 </button>
               </form>
 
-              <div className="divider">
-                <div className="divider-line"/> <span>o continúa con</span> <div className="divider-line"/>
-              </div>
-
-              <div className="social-row">
-                {GOOGLE_CLIENT_ID ? (
-                  <div className="google-btn-wrapper">
-                    <div ref={googleBtnRef} style={{ width:'100%' }} />
-                    {!googleReady && (
-                      <button className="btn btn-outline" disabled>
-                        <Loader2 size={18} className="spin" /> Cargando Google…
-                      </button>
-                    )}
+              {GOOGLE_CLIENT_ID && (
+                <>
+                  <div className="divider">
+                    <div className="divider-line"/> <span>o continúa con</span> <div className="divider-line"/>
                   </div>
-                ) : (
-                  <button className="btn btn-outline" disabled title="Configura GOOGLE_CLIENT_ID en .env">
-                    <Globe size={18} /> Google (sin configurar)
-                  </button>
-                )}
-              </div>
+
+                  <div className="social-row">
+                    <div className="google-btn-wrapper">
+                      <div ref={googleBtnRef} style={{ width:'100%' }} />
+                      {!googleReady && (
+                        <button className="btn btn-outline" disabled>
+                          <Loader2 size={18} className="spin" /> Cargando Google…
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
 
               {/* Sección Face ID */}
               <div className="faceid-section">
