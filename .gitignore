@@ -23,3 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 backend/serviceAccountKey.json
+
+# Variables de entorno — NUNCA subir al repo
+.env
+backend/.env
