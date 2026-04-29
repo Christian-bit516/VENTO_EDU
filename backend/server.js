@@ -14,7 +14,7 @@ const SECRET = process.env.JWT_SECRET || 'ventoedu_dev_secret';
    MIDDLEWARE
 ══════════════════════════════════════════════════ */
 app.use(cors({
-    origin: '*', // Por ahora usa '*' para probar si conecta, luego pon tu URL de Netlify
+    origin: '*', // Por ahora usa '*' para que Netlify pueda conectarse sin problemas
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -22,28 +22,41 @@ app.use(express.json({ limit: '5mb' })); // face descriptors son arrays grandes
 
 /* ══════════════════════════════════════════════════
    FIREBASE ADMIN (base de datos en la nube)
-   Todo el acceso a Firestore pasa por aquí (Node.js)
 ══════════════════════════════════════════════════ */
 let serviceAccount;
-if (process.env.FIREBASE_SERVICE_ACCOUNT) {
-    serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
-    // 👇 SOLUCIÓN PARA RAILWAY: Arregla los saltos de línea de la clave secreta
-    serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
-} else {
-    serviceAccount = require('./serviceAccountKey.json');
+try {
+    // MODO BASE64 PARA RAILWAY (Infalible)
+    if (process.env.FIREBASE_BASE64) {
+        const decodedText = Buffer.from(process.env.FIREBASE_BASE64, 'base64').toString('utf-8');
+        serviceAccount = JSON.parse(decodedText);
+    }
+    // Fallback por si acaso
+    else if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+        let envJson = process.env.FIREBASE_SERVICE_ACCOUNT.trim();
+        if (envJson.startsWith("'") && envJson.endsWith("'")) envJson = envJson.slice(1, -1);
+        serviceAccount = JSON.parse(envJson);
+        if (serviceAccount.private_key) {
+            serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
+        }
+    }
+    // Para tu computadora (localhost)
+    else {
+        serviceAccount = require('./serviceAccountKey.json');
+    }
+} catch (error) {
+    console.error("🚨 ERROR CRÍTICO AL LEER CREDENCIALES DE FIREBASE:", error.message);
 }
 
 admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
 const db = admin.firestore();
 
 /* ══════════════════════════════════════════════════
-   GOOGLE AUTH CLIENT (para verificar tokens de Google)
+   GOOGLE AUTH CLIENT
 ══════════════════════════════════════════════════ */
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 /* ══════════════════════════════════════════════════
    MIDDLEWARE: verificar JWT
-   Protege rutas que requieren sesión iniciada
 ══════════════════════════════════════════════════ */
 const verifyToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
@@ -60,14 +73,12 @@ const verifyToken = (req, res, next) => {
 /* ══════════════════════════════════════════════════
    HELPERS
 ══════════════════════════════════════════════════ */
-// Buscar usuario por email en Firestore
 const findUserByEmail = async (email) => {
     const snap = await db.collection('users').where('email', '==', email.toLowerCase()).get();
     if (snap.empty) return null;
     return { id: snap.docs[0].id, ...snap.docs[0].data() };
 };
 
-// Generar JWT con datos del usuario
 const signToken = (user) => jwt.sign(
     { id: user.id, name: user.name, email: user.email },
     SECRET,
@@ -77,7 +88,6 @@ const signToken = (user) => jwt.sign(
 /* ══════════════════════════════════════════════════
    1) REGISTRO CON CORREO Y CONTRASEÑA
    POST /api/register
-   Body: { name, email, password }
 ══════════════════════════════════════════════════ */
 app.post('/api/register', async (req, res) => {
     const { name, email, password } = req.body;
@@ -87,14 +97,10 @@ app.post('/api/register', async (req, res) => {
         return res.status(400).json({ error: 'La contraseña debe tener al menos 6 caracteres' });
 
     try {
-        // Verificar si el correo ya existe
         const existing = await findUserByEmail(email);
         if (existing) return res.status(400).json({ error: 'El correo ya está registrado' });
 
-        // Hashear contraseña con bcrypt (Node.js la procesa aquí)
         const hashedPassword = await bcrypt.hash(password, 12);
-
-        // Guardar en Firestore a través de Node.js
         const ref = await db.collection('users').add({
             name: name.trim(),
             email: email.toLowerCase().trim(),
@@ -105,7 +111,6 @@ app.post('/api/register', async (req, res) => {
 
         const user = { id: ref.id, name: name.trim(), email: email.toLowerCase().trim() };
         const token = signToken(user);
-
         res.status(201).json({ message: 'Usuario creado', token, user });
     } catch (err) {
         console.error('Register error:', err);
@@ -116,7 +121,6 @@ app.post('/api/register', async (req, res) => {
 /* ══════════════════════════════════════════════════
    2) LOGIN CON CORREO Y CONTRASEÑA
    POST /api/login
-   Body: { email, password }
 ══════════════════════════════════════════════════ */
 app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
@@ -132,7 +136,6 @@ app.post('/api/login', async (req, res) => {
         const valid = await bcrypt.compare(password, user.password);
         if (!valid) return res.status(401).json({ error: 'Correo o contraseña incorrectos' });
 
-        // Actualizar lastLogin
         await db.collection('users').doc(user.id).update({
             lastLogin: admin.firestore.FieldValue.serverTimestamp(),
             loginCount: admin.firestore.FieldValue.increment(1),
@@ -159,7 +162,6 @@ app.post('/api/login', async (req, res) => {
 /* ══════════════════════════════════════════════════
    3) LOGIN CON GOOGLE
    POST /api/google-login
-   Body: { credential } ← token JWT que da Google
 ══════════════════════════════════════════════════ */
 app.post('/api/google-login', async (req, res) => {
     const { credential } = req.body;
@@ -186,7 +188,6 @@ app.post('/api/google-login', async (req, res) => {
             user = { id: ref.id, name, email, role: 'student', progress: {} };
         }
 
-        // Actualizar lastLogin
         await db.collection('users').doc(user.id).update({
             lastLogin: admin.firestore.FieldValue.serverTimestamp(),
             loginCount: admin.firestore.FieldValue.increment(1),
@@ -213,8 +214,6 @@ app.post('/api/google-login', async (req, res) => {
 /* ══════════════════════════════════════════════════
    4) GUARDAR PERFIL FACIAL
    POST /api/face-profile
-   Body: { name, email, descriptor[] }
-   Requiere: Token JWT (sesión iniciada)
 ══════════════════════════════════════════════════ */
 app.post('/api/face-profile', async (req, res) => {
     const { name, email, descriptor } = req.body;
@@ -224,11 +223,9 @@ app.post('/api/face-profile', async (req, res) => {
     try {
         const emailLow = email.toLowerCase().trim();
 
-        // ── 1) Asegurar que el usuario existe en la colección 'users' ──
         let userId = null;
         let existingUser = await findUserByEmail(emailLow);
         if (!existingUser) {
-            // Primera vez que registra face ID → crear registro de usuario
             const ref = await db.collection('users').add({
                 name: name.trim(),
                 email: emailLow,
@@ -244,7 +241,6 @@ app.post('/api/face-profile', async (req, res) => {
             userId = existingUser.id;
         }
 
-        // ── 2) Guardar/actualizar perfil facial ──
         const existing = await db.collection('face_profiles')
             .where('email', '==', emailLow).get();
 
@@ -272,12 +268,9 @@ app.post('/api/face-profile', async (req, res) => {
     }
 });
 
-
-
 /* ══════════════════════════════════════════════════
-   4b) BUSCAR USUARIO POR EMAIL
-   GET /api/user-by-email?email=...&autoCreateName=...
-   Usado por Face ID login para obtener id + progress
+   4b) BUSCAR USUARIO POR EMAIL (Para Face ID)
+   GET /api/user-by-email
 ══════════════════════════════════════════════════ */
 app.get('/api/user-by-email', async (req, res) => {
     const { email, autoCreateName } = req.query;
@@ -286,7 +279,6 @@ app.get('/api/user-by-email', async (req, res) => {
         const emailLow = email.toLowerCase().trim();
         let user = await findUserByEmail(emailLow);
 
-        // Si no existe pero viene de un login de Face ID antiguo, lo creamos
         if (!user && autoCreateName) {
             const ref = await db.collection('users').add({
                 name: autoCreateName.trim(),
@@ -298,14 +290,7 @@ app.get('/api/user-by-email', async (req, res) => {
                 progress: {},
                 createdAt: admin.firestore.FieldValue.serverTimestamp(),
             });
-            user = {
-                id: ref.id,
-                name: autoCreateName.trim(),
-                email: emailLow,
-                role: 'student',
-                progress: {},
-                method: 'face'
-            };
+            user = { id: ref.id, name: autoCreateName.trim(), email: emailLow, role: 'student', progress: {}, method: 'face' };
         } else if (!user) {
             return res.status(404).json({ error: 'Usuario no encontrado' });
         }
@@ -327,7 +312,6 @@ app.get('/api/user-by-email', async (req, res) => {
 /* ══════════════════════════════════════════════════
    5) OBTENER TODOS LOS PERFILES FACIALES
    GET /api/face-profiles
-   Usado para comparar al iniciar sesión con Face ID
 ══════════════════════════════════════════════════ */
 app.get('/api/face-profiles', async (req, res) => {
     try {
@@ -354,7 +338,7 @@ app.delete('/api/face-profile/:id', verifyToken, async (req, res) => {
 });
 
 /* ══════════════════════════════════════════════════
-   7) VERIFICAR TOKEN (para proteger rutas en frontend)
+   7) VERIFICAR TOKEN
    GET /api/verify
 ══════════════════════════════════════════════════ */
 app.get('/api/verify', verifyToken, (req, res) => {
@@ -364,13 +348,11 @@ app.get('/api/verify', verifyToken, (req, res) => {
 /* ══════════════════════════════════════════════════
    8) GUARDAR PROGRESO DEL USUARIO
    PUT /api/progress/:userId
-   Body: { module, data }
 ══════════════════════════════════════════════════ */
 app.put('/api/progress/:userId', async (req, res) => {
     const { userId } = req.params;
     const { module, data } = req.body;
-    if (!module || !data)
-        return res.status(400).json({ error: 'module y data son requeridos' });
+    if (!module || !data) return res.status(400).json({ error: 'module y data son requeridos' });
 
     try {
         await db.collection('users').doc(userId).update({
@@ -392,8 +374,7 @@ app.get('/api/progress/:userId', async (req, res) => {
     try {
         const doc = await db.collection('users').doc(req.params.userId).get();
         if (!doc.exists) return res.status(404).json({ error: 'Usuario no encontrado' });
-        const data = doc.data();
-        res.json({ progress: data.progress || {} });
+        res.json({ progress: doc.data().progress || {} });
     } catch (err) {
         console.error('Progress load error:', err);
         res.status(500).json({ error: 'Error al cargar progreso' });
@@ -401,7 +382,7 @@ app.get('/api/progress/:userId', async (req, res) => {
 });
 
 /* ══════════════════════════════════════════════════
-   10) LISTA DE USUARIOS (para AdminPanel)
+   10) LISTA DE USUARIOS (AdminPanel)
    GET /api/users
 ══════════════════════════════════════════════════ */
 app.get('/api/users', async (req, res) => {
@@ -429,7 +410,7 @@ app.get('/api/users', async (req, res) => {
 });
 
 /* ══════════════════════════════════════════════════
-   11) LISTA DE ADMINS (para AdminPanel)
+   11) LISTA DE ADMINS (AdminPanel)
    GET /api/admins
 ══════════════════════════════════════════════════ */
 app.get('/api/admins', async (req, res) => {
@@ -447,16 +428,5 @@ app.get('/api/admins', async (req, res) => {
 ══════════════════════════════════════════════════ */
 app.listen(PORT, () => {
     console.log(`\n🚀 VentoEdu Backend corriendo en http://localhost:${PORT}`);
-    console.log(`📦 Endpoints disponibles:`);
-    console.log(`   POST   /api/register`);
-    console.log(`   POST   /api/login`);
-    console.log(`   POST   /api/google-login`);
-    console.log(`   POST   /api/face-profile`);
-    console.log(`   GET    /api/face-profiles`);
-    console.log(`   DELETE /api/face-profile/:id`);
-    console.log(`   GET    /api/verify`);
-    console.log(`   PUT    /api/progress/:userId  ← NUEVO`);
-    console.log(`   GET    /api/progress/:userId  ← NUEVO`);
-    console.log(`   GET    /api/users             ← NUEVO`);
-    console.log(`   GET    /api/admins            ← NUEVO\n`);
+    console.log(`📦 Listo para produccion en Railway y conexion con Netlify\n`);
 });
