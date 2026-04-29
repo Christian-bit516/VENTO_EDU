@@ -1,187 +1,187 @@
-
-/* ═══ COURSE CARD V3 — Premium 2-column grid ═══════════════════════════════ */
-.courses-grid-v3 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem; margin-bottom: 2.5rem;
-}
-@media (max-width: 800px) { .courses-grid-v3 { grid-template-columns: 1fr; } }
-
-.course-card-v3 {
-  position: relative; border-radius: 24px; overflow: hidden;
-  cursor: pointer; display: flex; flex-direction: column;
-  background: var(--ccbg);
-  border: 1px solid rgba(var(--ccrgb), 0.2);
-  transition: all 0.35s cubic-bezier(.25,.8,.25,1);
-  min-height: 420px;
-}
-.course-card-v3.hov {
-  transform: translateY(-6px) scale(1.01);
-  border-color: rgba(var(--ccrgb), 0.5);
-  box-shadow: 0 24px 60px rgba(var(--ccrgb), 0.2), 0 0 0 1px rgba(var(--ccrgb),0.15);
-}
-.ccv3-bg {
-  position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(ellipse at 80% 10%, rgba(var(--ccrgb),0.12), transparent 65%);
-}
-.ccv3-glow {
-  position: absolute; top: -80px; right: -80px;
-  width: 250px; height: 250px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(var(--ccrgb),0.1), transparent 70%);
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
-.course-card-v3.hov .ccv3-glow { opacity: 1.5; }
-
-/* Real image banner */
-.ccv3-banner {
-  height: 140px; position: relative; overflow: hidden; z-index: 1;
-  background: rgba(0,0,0,0.4);
-}
-.ccv3-banner-img {
-  width: 100%; height: 100%; object-fit: cover;
-  transition: transform 0.4s ease;
-  opacity: 0.85;
-}
-.course-card-v3.hov .ccv3-banner-img { transform: scale(1.06); }
-.ccv3-banner-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.65) 100%);
-}
-.ccv3-banner-emoji-float {
-  position: absolute; bottom: 10px; right: 12px;
-  font-size: 2.2rem; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.6));
-  animation: floatIcon 3s ease-in-out infinite;
-}
-@keyframes floatIcon { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
-
-/* Emoji hero */
-.ccv3-emoji-hero {
-  padding: 0.8rem 1.5rem 0.6rem;
-  display: flex; align-items: center; gap: 1rem;
-  position: relative; z-index: 1;
-}
-.ccv3-emoji-ring {
-  width: 72px; height: 72px; border-radius: 22px; flex-shrink: 0;
-  background: rgba(var(--ccrgb), 0.15);
-  border: 2px solid rgba(var(--ccrgb), 0.3);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 2.2rem;
-  box-shadow: 0 8px 24px rgba(var(--ccrgb), 0.2);
-  transition: transform 0.3s;
-}
-.course-card-v3.hov .ccv3-emoji-ring { transform: scale(1.08) rotate(5deg); }
-.ccv3-badge-row { display: flex; flex-direction: column; gap: 0.4rem; }
-.ccv3-difficulty {
-  padding: 0.2rem 0.6rem; border-radius: 999px;
-  background: rgba(var(--ccrgb), 0.15); border: 1px solid rgba(var(--ccrgb), 0.25);
-  font-size: 0.7rem; font-weight: 800; color: var(--cc);
-}
-.ccv3-duration { font-size: 0.72rem; font-weight: 700; color: #666; }
-
-/* Content */
-.ccv3-content {
-  padding: 0.5rem 1.5rem 1.5rem;
-  flex: 1; display: flex; flex-direction: column; gap: 0.6rem;
-  position: relative; z-index: 1;
-}
-.ccv3-name { font-size: 1.15rem; font-weight: 900; color: #fff; }
-.ccv3-subtitle { font-size: 0.82rem; font-weight: 700; color: var(--cc); opacity: 0.85; }
-.ccv3-desc { font-size: 0.8rem; color: #888; font-weight: 600; line-height: 1.4; }
-.ccv3-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-.ccv3-stats { display: flex; gap: 1rem; }
-.ccv3-stat { font-size: 0.73rem; font-weight: 700; color: #666; }
-
-/* Progress */
-.ccv3-progress { margin-top: auto; }
-.ccv3-prog-info {
-  display: flex; justify-content: space-between;
-  font-size: 0.73rem; font-weight: 800; color: #888; margin-bottom: 0.4rem;
-}
-.ccv3-prog-bar {
-  height: 7px; background: rgba(255,255,255,0.07);
-  border-radius: 999px; overflow: hidden; position: relative;
-}
-.ccv3-prog-fill {
-  height: 100%; border-radius: 999px;
-  transition: width 0.9s cubic-bezier(.25,.1,.25,1);
-  position: relative;
-}
-.ccv3-prog-shimmer {
-  position: absolute; inset: 0;
-  background: linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);
-  animation: shimmerSlide 2s ease infinite;
-}
-
-/* CTA */
-.ccv3-cta {
-  margin-top: 0.8rem; width: 100%; padding: 0.8rem;
-  font-family: var(--font-main); font-size: 0.9rem; font-weight: 900;
-  color: #fff; border: none; border-radius: 14px; cursor: pointer;
-  background: linear-gradient(135deg, var(--cc), rgba(var(--ccrgb),0.7));
-  box-shadow: 0 4px 20px rgba(var(--ccrgb), 0.3);
-  transition: all 0.2s;
-  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-}
-.ccv3-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(var(--ccrgb), 0.4); }
-.ccv3-cta:active { transform: translateY(2px); box-shadow: none; }
-.ccv3-arrow { transition: transform 0.2s; }
-.ccv3-cta:hover .ccv3-arrow { transform: translateX(5px); }
-
-/* ═══ GENERIC MODULE — Course header ═══════════════════════════════════════ */
-.course-module-header {
-  display: flex; align-items: center; gap: 1rem;
-  padding: 1.25rem 1.5rem; border-radius: 20px;
-  border: 1px solid; margin-bottom: 2rem;
-  animation: fadeInUp 0.4s ease both;
-}
-.cmh-icon {
-  width: 56px; height: 56px; border-radius: 16px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 2rem;
-}
-.cmh-info { flex: 1; }
-.cmh-title { font-size: 1.2rem; font-weight: 900; }
-.cmh-sub { font-size: 0.78rem; font-weight: 600; color: #777; margin-top: 0.15rem; }
-.cmh-xp-badge {
-  padding: 0.3rem 0.8rem; border-radius: 999px;
-  font-size: 0.8rem; font-weight: 900; border: 1px solid;
-  white-space: nowrap;
-}
-
-/* wider dashboard */
-.dash-content { max-width: 1100px !important; }
-
-/* shimmerSlide */
-@keyframes ccShimmer { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
-@keyframes shimmerSlide { 0%{transform:translateX(-100%)} 100%{transform:translateX(200%)} }
-@keyframes fadeInUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
-
-/* ─── Practice Mode Button ──────────────────────────────────── */
-.practice-mode-btn {
-  display: flex; align-items: center; gap: 0.8rem;
-  width: 100%; padding: 1rem 1.4rem;
-  background: linear-gradient(135deg, rgba(var(--pc-rgb,255,107,157),0.12), rgba(var(--pc-rgb,255,107,157),0.05));
-  border: 1px solid rgba(255,255,255,0.1);
-  border-left: 3px solid var(--pc, #ff6b9d);
-  border-radius: 16px; cursor: pointer;
-  font-family: var(--font-main, system-ui);
-  color: #fff; margin-bottom: 1.5rem;
-  transition: all 0.2s;
-  animation: fadeInUp 0.4s 0.2s ease both;
-}
-.practice-mode-btn:hover {
-  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-  border-color: var(--pc, #ff6b9d);
-  transform: translateX(4px);
-}
-.pmb-icon  { font-size: 1.6rem; }
-.pmb-label { flex: 1; font-size: 0.95rem; font-weight: 900; text-align: left; }
-.pmb-arrow { font-size: 1.1rem; color: var(--pc, #ff6b9d); transition: transform 0.2s; }
-.practice-mode-btn:hover .pmb-arrow { transform: translateX(6px); }
-
-/* ─── Practice Mode View ────────────────────────────────────── */
-.practice-mode-view {
-  padding: 1.5rem 0;
-  animation: fadeInUp 0.35s ease both;
-}
+
+/* ═══ COURSE CARD V3 — Premium 2-column grid ═══════════════════════════════ */
+.courses-grid-v3 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem; margin-bottom: 2.5rem;
+}
+@media (max-width: 800px) { .courses-grid-v3 { grid-template-columns: 1fr; } }
+
+.course-card-v3 {
+  position: relative; border-radius: 24px; overflow: hidden;
+  cursor: pointer; display: flex; flex-direction: column;
+  background: var(--ccbg);
+  border: 1px solid rgba(var(--ccrgb), 0.2);
+  transition: all 0.35s cubic-bezier(.25,.8,.25,1);
+  min-height: 420px;
+}
+.course-card-v3.hov {
+  transform: translateY(-6px) scale(1.01);
+  border-color: rgba(var(--ccrgb), 0.5);
+  box-shadow: 0 24px 60px rgba(var(--ccrgb), 0.2), 0 0 0 1px rgba(var(--ccrgb),0.15);
+}
+.ccv3-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 80% 10%, rgba(var(--ccrgb),0.12), transparent 65%);
+}
+.ccv3-glow {
+  position: absolute; top: -80px; right: -80px;
+  width: 250px; height: 250px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--ccrgb),0.1), transparent 70%);
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.course-card-v3.hov .ccv3-glow { opacity: 1.5; }
+
+/* Real image banner */
+.ccv3-banner {
+  height: 140px; position: relative; overflow: hidden; z-index: 1;
+  background: rgba(0,0,0,0.4);
+}
+.ccv3-banner-img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.4s ease;
+  opacity: 0.85;
+}
+.course-card-v3.hov .ccv3-banner-img { transform: scale(1.06); }
+.ccv3-banner-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.65) 100%);
+}
+.ccv3-banner-emoji-float {
+  position: absolute; bottom: 10px; right: 12px;
+  font-size: 2.2rem; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.6));
+  animation: floatIcon 3s ease-in-out infinite;
+}
+@keyframes floatIcon { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+/* Emoji hero */
+.ccv3-emoji-hero {
+  padding: 0.8rem 1.5rem 0.6rem;
+  display: flex; align-items: center; gap: 1rem;
+  position: relative; z-index: 1;
+}
+.ccv3-emoji-ring {
+  width: 72px; height: 72px; border-radius: 22px; flex-shrink: 0;
+  background: rgba(var(--ccrgb), 0.15);
+  border: 2px solid rgba(var(--ccrgb), 0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.2rem;
+  box-shadow: 0 8px 24px rgba(var(--ccrgb), 0.2);
+  transition: transform 0.3s;
+}
+.course-card-v3.hov .ccv3-emoji-ring { transform: scale(1.08) rotate(5deg); }
+.ccv3-badge-row { display: flex; flex-direction: column; gap: 0.4rem; }
+.ccv3-difficulty {
+  padding: 0.2rem 0.6rem; border-radius: 999px;
+  background: rgba(var(--ccrgb), 0.15); border: 1px solid rgba(var(--ccrgb), 0.25);
+  font-size: 0.7rem; font-weight: 800; color: var(--cc);
+}
+.ccv3-duration { font-size: 0.72rem; font-weight: 700; color: #666; }
+
+/* Content */
+.ccv3-content {
+  padding: 0.5rem 1.5rem 1.5rem;
+  flex: 1; display: flex; flex-direction: column; gap: 0.6rem;
+  position: relative; z-index: 1;
+}
+.ccv3-name { font-size: 1.15rem; font-weight: 900; color: #fff; }
+.ccv3-subtitle { font-size: 0.82rem; font-weight: 700; color: var(--cc); opacity: 0.85; }
+.ccv3-desc { font-size: 0.8rem; color: #888; font-weight: 600; line-height: 1.4; }
+.ccv3-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.ccv3-stats { display: flex; gap: 1rem; }
+.ccv3-stat { font-size: 0.73rem; font-weight: 700; color: #666; }
+
+/* Progress */
+.ccv3-progress { margin-top: auto; }
+.ccv3-prog-info {
+  display: flex; justify-content: space-between;
+  font-size: 0.73rem; font-weight: 800; color: #888; margin-bottom: 0.4rem;
+}
+.ccv3-prog-bar {
+  height: 7px; background: rgba(255,255,255,0.07);
+  border-radius: 999px; overflow: hidden; position: relative;
+}
+.ccv3-prog-fill {
+  height: 100%; border-radius: 999px;
+  transition: width 0.9s cubic-bezier(.25,.1,.25,1);
+  position: relative;
+}
+.ccv3-prog-shimmer {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);
+  animation: shimmerSlide 2s ease infinite;
+}
+
+/* CTA */
+.ccv3-cta {
+  margin-top: 0.8rem; width: 100%; padding: 0.8rem;
+  font-family: var(--font-main); font-size: 0.9rem; font-weight: 900;
+  color: #fff; border: none; border-radius: 14px; cursor: pointer;
+  background: linear-gradient(135deg, var(--cc), rgba(var(--ccrgb),0.7));
+  box-shadow: 0 4px 20px rgba(var(--ccrgb), 0.3);
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+}
+.ccv3-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(var(--ccrgb), 0.4); }
+.ccv3-cta:active { transform: translateY(2px); box-shadow: none; }
+.ccv3-arrow { transition: transform 0.2s; }
+.ccv3-cta:hover .ccv3-arrow { transform: translateX(5px); }
+
+/* ═══ GENERIC MODULE — Course header ═══════════════════════════════════════ */
+.course-module-header {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.25rem 1.5rem; border-radius: 20px;
+  border: 1px solid; margin-bottom: 2rem;
+  animation: fadeInUp 0.4s ease both;
+}
+.cmh-icon {
+  width: 56px; height: 56px; border-radius: 16px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+}
+.cmh-info { flex: 1; }
+.cmh-title { font-size: 1.2rem; font-weight: 900; }
+.cmh-sub { font-size: 0.78rem; font-weight: 600; color: #777; margin-top: 0.15rem; }
+.cmh-xp-badge {
+  padding: 0.3rem 0.8rem; border-radius: 999px;
+  font-size: 0.8rem; font-weight: 900; border: 1px solid;
+  white-space: nowrap;
+}
+
+/* wider dashboard */
+.dash-content { max-width: 1100px !important; }
+
+/* shimmerSlide */
+@keyframes ccShimmer { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+@keyframes shimmerSlide { 0%{transform:translateX(-100%)} 100%{transform:translateX(200%)} }
+@keyframes fadeInUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+
+/* ─── Practice Mode Button ──────────────────────────────────── */
+.practice-mode-btn {
+  display: flex; align-items: center; gap: 0.8rem;
+  width: 100%; padding: 1rem 1.4rem;
+  background: linear-gradient(135deg, rgba(var(--pc-rgb,255,107,157),0.12), rgba(var(--pc-rgb,255,107,157),0.05));
+  border: 1px solid rgba(255,255,255,0.1);
+  border-left: 3px solid var(--pc, #ff6b9d);
+  border-radius: 16px; cursor: pointer;
+  font-family: var(--font-main, system-ui);
+  color: #fff; margin-bottom: 1.5rem;
+  transition: all 0.2s;
+  animation: fadeInUp 0.4s 0.2s ease both;
+}
+.practice-mode-btn:hover {
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+  border-color: var(--pc, #ff6b9d);
+  transform: translateX(4px);
+}
+.pmb-icon  { font-size: 1.6rem; }
+.pmb-label { flex: 1; font-size: 0.95rem; font-weight: 900; text-align: left; }
+.pmb-arrow { font-size: 1.1rem; color: var(--pc, #ff6b9d); transition: transform 0.2s; }
+.practice-mode-btn:hover .pmb-arrow { transform: translateX(6px); }
+
+/* ─── Practice Mode View ────────────────────────────────────── */
+.practice-mode-view {
+  padding: 1.5rem 0;
+  animation: fadeInUp 0.35s ease both;
+}
