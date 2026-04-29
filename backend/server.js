@@ -1,22 +1,22 @@
 require('dotenv').config();
-const express  = require('express');
-const cors     = require('cors');
-const bcrypt   = require('bcryptjs');
-const jwt      = require('jsonwebtoken');
-const admin    = require('firebase-admin');
+const express = require('express');
+const cors = require('cors');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const admin = require('firebase-admin');
 const { OAuth2Client } = require('google-auth-library');
 
-const app    = express();
-const PORT   = process.env.PORT || 5000;
+const app = express();
+const PORT = process.env.PORT || 5000;
 const SECRET = process.env.JWT_SECRET || 'ventoedu_dev_secret';
 
 /* ══════════════════════════════════════════════════
    MIDDLEWARE
 ══════════════════════════════════════════════════ */
 app.use(cors({
-  origin: '*', // Por ahora usa '*' para probar si conecta, luego pon tu URL de Netlify
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+    origin: '*', // Por ahora usa '*' para probar si conecta, luego pon tu URL de Netlify
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json({ limit: '5mb' })); // face descriptors son arrays grandes
 
@@ -27,9 +27,12 @@ app.use(express.json({ limit: '5mb' })); // face descriptors son arrays grandes
 let serviceAccount;
 if (process.env.FIREBASE_SERVICE_ACCOUNT) {
     serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+    // 👇 SOLUCIÓN PARA RAILWAY: Arregla los saltos de línea de la clave secreta
+    serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
 } else {
     serviceAccount = require('./serviceAccountKey.json');
 }
+
 admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
 const db = admin.firestore();
 
@@ -93,9 +96,9 @@ app.post('/api/register', async (req, res) => {
 
         // Guardar en Firestore a través de Node.js
         const ref = await db.collection('users').add({
-            name:      name.trim(),
-            email:     email.toLowerCase().trim(),
-            password:  hashedPassword,
+            name: name.trim(),
+            email: email.toLowerCase().trim(),
+            password: hashedPassword,
             google_id: null,
             createdAt: admin.firestore.FieldValue.serverTimestamp(),
         });
@@ -139,11 +142,11 @@ app.post('/api/login', async (req, res) => {
         res.json({
             token,
             user: {
-                id:       user.id,
-                name:     user.name,
-                email:    user.email,
-                role:     user.role || 'student',
-                method:   'email',
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role || 'student',
+                method: 'email',
                 progress: user.progress || {},
             },
         });
@@ -164,7 +167,7 @@ app.post('/api/google-login', async (req, res) => {
 
     try {
         const ticket = await googleClient.verifyIdToken({
-            idToken:  credential,
+            idToken: credential,
             audience: process.env.GOOGLE_CLIENT_ID,
         });
         const { sub: google_id, email, name } = ticket.getPayload();
@@ -174,10 +177,10 @@ app.post('/api/google-login', async (req, res) => {
         if (!user) {
             const ref = await db.collection('users').add({
                 name, email: email.toLowerCase(),
-                password:  null,
+                password: null,
                 google_id,
-                role:      'student',
-                progress:  {},
+                role: 'student',
+                progress: {},
                 createdAt: admin.firestore.FieldValue.serverTimestamp(),
             });
             user = { id: ref.id, name, email, role: 'student', progress: {} };
@@ -185,19 +188,19 @@ app.post('/api/google-login', async (req, res) => {
 
         // Actualizar lastLogin
         await db.collection('users').doc(user.id).update({
-            lastLogin:  admin.firestore.FieldValue.serverTimestamp(),
+            lastLogin: admin.firestore.FieldValue.serverTimestamp(),
             loginCount: admin.firestore.FieldValue.increment(1),
-        }).catch(() => {});
+        }).catch(() => { });
 
         const token = signToken(user);
         res.json({
             token,
             user: {
-                id:       user.id,
-                name:     user.name,
-                email:    user.email,
-                role:     user.role || 'student',
-                method:   'google',
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role || 'student',
+                method: 'google',
                 progress: user.progress || {},
             },
         });
@@ -227,13 +230,13 @@ app.post('/api/face-profile', async (req, res) => {
         if (!existingUser) {
             // Primera vez que registra face ID → crear registro de usuario
             const ref = await db.collection('users').add({
-                name:      name.trim(),
-                email:     emailLow,
-                password:  null,
+                name: name.trim(),
+                email: emailLow,
+                password: null,
                 google_id: null,
-                method:    'face',
-                role:      'student',
-                progress:  {},
+                method: 'face',
+                role: 'student',
+                progress: {},
                 createdAt: admin.firestore.FieldValue.serverTimestamp(),
             });
             userId = ref.id;
@@ -255,8 +258,8 @@ app.post('/api/face-profile', async (req, res) => {
         }
 
         const ref = await db.collection('face_profiles').add({
-            name:      name.trim(),
-            email:     emailLow,
+            name: name.trim(),
+            email: emailLow,
             descriptor,
             userId,
             createdAt: admin.firestore.FieldValue.serverTimestamp(),
@@ -282,17 +285,17 @@ app.get('/api/user-by-email', async (req, res) => {
     try {
         const emailLow = email.toLowerCase().trim();
         let user = await findUserByEmail(emailLow);
-        
+
         // Si no existe pero viene de un login de Face ID antiguo, lo creamos
         if (!user && autoCreateName) {
             const ref = await db.collection('users').add({
-                name:      autoCreateName.trim(),
-                email:     emailLow,
-                password:  null,
+                name: autoCreateName.trim(),
+                email: emailLow,
+                password: null,
                 google_id: null,
-                method:    'face',
-                role:      'student',
-                progress:  {},
+                method: 'face',
+                role: 'student',
+                progress: {},
                 createdAt: admin.firestore.FieldValue.serverTimestamp(),
             });
             user = {
@@ -308,12 +311,12 @@ app.get('/api/user-by-email', async (req, res) => {
         }
 
         res.json({
-            id:       user.id,
-            name:     user.name,
-            email:    user.email,
-            role:     user.role     || 'student',
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role || 'student',
             progress: user.progress || {},
-            method:   user.method   || (user.google_id ? 'google' : user.password ? 'email' : 'face'),
+            method: user.method || (user.google_id ? 'google' : user.password ? 'email' : 'face'),
         });
     } catch (err) {
         console.error('Get user error:', err);
@@ -407,15 +410,15 @@ app.get('/api/users', async (req, res) => {
         const users = snap.docs.map(doc => {
             const d = doc.data();
             return {
-                id:          doc.id,
-                name:        d.name,
-                email:       d.email,
-                method:      d.google_id ? 'google' : d.password ? 'email' : 'face',
-                role:        d.role || 'student',
-                progress:    d.progress || {},
-                loginCount:  d.loginCount || 0,
-                lastLogin:   d.lastLogin?.toDate?.()?.toISOString() || null,
-                registeredAt:d.createdAt?.toDate?.()?.toISOString() || null,
+                id: doc.id,
+                name: d.name,
+                email: d.email,
+                method: d.google_id ? 'google' : d.password ? 'email' : 'face',
+                role: d.role || 'student',
+                progress: d.progress || {},
+                loginCount: d.loginCount || 0,
+                lastLogin: d.lastLogin?.toDate?.()?.toISOString() || null,
+                registeredAt: d.createdAt?.toDate?.()?.toISOString() || null,
             };
         });
         res.json({ success: true, users });
